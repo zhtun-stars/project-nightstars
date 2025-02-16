@@ -18,7 +18,7 @@ export const randomDate = (): Date =>
   new Date(+new Date() - Math.floor(Math.random() * 10000000000));
 
 export const CLINICAL_DATA: IClinicalData[] = Array.from(
-  { length: 49 },
+  { length: 15 },
   (_, index) => ({
     mission: `24A00248${index + 1}`,
     date: new Date(+new Date() - Math.floor(Math.random() * 10000000000)),

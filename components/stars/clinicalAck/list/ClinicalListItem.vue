@@ -13,13 +13,13 @@
             v-if="clinicalData.peerReviewed"
           >
             <TextTooltip :tooltip="'Peer reviewed it.'">
-              <View class="w-4 h-4 inline-block text-[#0c2e3f]" />
+              <View class="w-4 h-4 inline-block text-[--star-midnight]" />
               {{ formatDate }}
             </TextTooltip>
           </div>
           <div class="flex-1 text-right text-xs">
             <TextTooltip tooltip="You acknowledged it.">
-              <FileCheck class="w-4 h-4 inline-block text-[#91decf]" />
+              <FileCheck class="w-4 h-4 inline-block text-[--star-hope]" />
             </TextTooltip>
             {{ shortDate }}
           </div>
