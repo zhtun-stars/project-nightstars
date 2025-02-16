@@ -1,4 +1,4 @@
-import type { IClinicalData } from "./interfaces";
+import type { IChat, IClinicalData } from "./interfaces";
 
 const randomNames = [
   "Dr. Jane Doe",
@@ -11,9 +11,11 @@ const randomNames = [
   "Dr. Robert Garcia",
 ];
 
-const randomByMax = (max: number): number =>
+export const randomByMax = (max: number): number =>
   parseInt(Math.floor(Math.random() * max) + "", 10);
 const randomBaseNames = ["Calgary", "Edmonton"];
+export const randomDate = (): Date =>
+  new Date(+new Date() - Math.floor(Math.random() * 10000000000));
 
 export const CLINICAL_DATA: IClinicalData[] = Array.from(
   { length: 49 },
@@ -23,7 +25,11 @@ export const CLINICAL_DATA: IClinicalData[] = Array.from(
     physicianDate: new Date(
       +new Date() - Math.floor(Math.random() * 10000000000)
     ),
-    peerReview: new Date(+new Date() - Math.floor(Math.random() * 10000000000)),
+    peerReviewDate: new Date(
+      +new Date() - Math.floor(Math.random() * 10000000000)
+    ),
+    peerReviewed: parseInt(Math.random() * 10 + "", 10) % 2 === 0,
+    acknowledged: parseInt(Math.random() * 10 + "", 10) % 2 === 0,
     physician: randomNames[Math.floor(Math.random() * randomNames.length)],
     baseName:
       randomBaseNames[Math.floor(Math.random() * randomBaseNames.length)],
@@ -32,5 +38,15 @@ export const CLINICAL_DATA: IClinicalData[] = Array.from(
       name: randomNames[Math.floor(Math.random() * randomNames.length)],
       date: new Date(+new Date() - Math.floor(Math.random() * 10000000000)),
     })),
+  })
+);
+
+export const COMMENTS: IChat[] = Array.from(
+  { length: randomByMax(5) },
+  (_, index) => ({
+    id: `24A00248${index + 1}`,
+    message: `This is a message for mission 24A00248${index + 1}`,
+    date: new Date(+new Date() - Math.floor(Math.random() * 10000000000)),
+    user: randomNames[Math.floor(Math.random() * randomNames.length)],
   })
 );

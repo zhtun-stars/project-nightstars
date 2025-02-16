@@ -1,0 +1,23 @@
+Critical Care Red
+RGB: 242 8 8
+CMYK: 0 100 100 0
+HEX # f20808
+
+Hopeful Blue
+RGB: 145 222 207
+CMYK: 45 0 27 0
+HEX # 91decf
+
+Midnight Blue
+RGB: 12 46 63
+CMYK: 100 46 0 89
+HEX # 0c2e3f
+
+Saving Grey
+RGB: 224 217 209
+CMYK: 5 8 10 16
+HEX # e0d9d1
+
+Misty White - Digital use only
+RGB: 246 244 243
+HEX # f6f4f3

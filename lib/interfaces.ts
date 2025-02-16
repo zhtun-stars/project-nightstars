@@ -22,9 +22,19 @@ export interface IClinicalData {
   mission: String;
   date: Date;
   physicianDate: Date;
-  peerReview: Date;
+  peerReviewDate: Date;
+  peerReviewed: boolean;
   physician: String;
   baseName: String;
   physicianReview: boolean;
   crews: ICrew[];
+  acknowledged: boolean;
+}
+
+
+export interface IChat {
+  id: String;
+  message: String;
+  date: Date;
+  user: String;
 }

@@ -1,5 +1,7 @@
 <template>
-  <div class="border order-ring border-gray-300 p-2 flex justify-between">
+  <div
+    class="border order-ring border-gray-300 p-2 flex justify-between h-[48px] leading-[30px] mb-2"
+  >
     <div>
       <input
         class="focus:outline-none"
