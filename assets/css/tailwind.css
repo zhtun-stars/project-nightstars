@@ -34,6 +34,13 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+
+
+    --star-color: #f20808;
+    --star-hope: #91decf;
+    --star-midnight: #0c2e3f;
+    --star-gray: #e0d9d1;
+    --star-white: #f6f4f3;
   }
 
   .dark {
