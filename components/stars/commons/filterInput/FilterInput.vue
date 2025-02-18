@@ -4,7 +4,7 @@
   >
     <div>
       <input
-        class="focus:outline-none"
+        class="focus:outline-none bg-inherit"
         type="text"
         v-model="filterText"
         @input="onInput"

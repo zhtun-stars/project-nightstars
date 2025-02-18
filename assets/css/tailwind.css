@@ -49,9 +49,13 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --list-color: #f6f4f3;
+    --list-color-hover: #f6f4f3;
   }
 
-  .dark {
+  .dark,
+  .dark-mode {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
 
@@ -89,6 +93,9 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --list-color: #222;
+    --list-color-hover: #444;
   }
 }
 
@@ -125,3 +132,16 @@ body {
     background: #ddd;
   }
 }
+
+/* body {
+  background-color: #fff;
+  color: rgba(0,0,0,0.8);
+}
+.dark-mode body {
+  background-color: #091a28;
+  color: #ebf4f1;
+}
+.sepia-mode body {
+  background-color: #f1e7d0;
+  color: #433422;
+} */
