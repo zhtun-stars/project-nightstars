@@ -10,10 +10,10 @@
 
 <script lang="ts">
 import { House } from "lucide-vue-next";
-import Breadcrumb from "../ui/breadcrumb/Breadcrumb.vue";
-import BreadcrumbItem from "../ui/breadcrumb/BreadcrumbItem.vue";
-import BreadcrumbList from "../ui/breadcrumb/BreadcrumbList.vue";
-import BreadcrumbSeparator from "../ui/breadcrumb/BreadcrumbSeparator.vue";
+import Breadcrumb from "@/components/ui/breadcrumb/Breadcrumb.vue";
+import BreadcrumbItem from "@/components/ui/breadcrumb/BreadcrumbItem.vue";
+import BreadcrumbList from "@/components/ui/breadcrumb/BreadcrumbList.vue";
+import BreadcrumbSeparator from "@/components/ui/breadcrumb/BreadcrumbSeparator.vue";
 
 export default {
   name: "BreadcrumbPanel",
