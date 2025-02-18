@@ -6,13 +6,13 @@
     <div
       class="h-[500px] rounded-md fixed w-[800px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 \ flex bg-[--star-color] shadow-md"
     >
-      <div class="flex-1 p-11 flex h-full flex-col gap-12">
-        <p class="text-4xl text-[white] font-bold">STARS</p>
+      <div class="flex-1 px-11 py-14 flex h-full flex-col gap-12">
+        <p class="text-5xl text-[white] font-bold">STARS</p>
         <p class="flex-auto flex-grow-1 text-[white] text-justify px-6">
           STARS is a lifeline for patients in rural, remote, and indigenous
           communities across Western Canada.
         </p>
-        <a class="text-[white]" target="_blank" href="https://www.stars.ca"
+        <a class="text-[white] pb-6 px-6" target="_blank" href="https://stars.ca/who-we-are/our-north-star/"
           >Learn More <SquareArrowOutUpRight class="inline-block"
         /></a>
       </div>
@@ -46,7 +46,7 @@
   </ClientOnly>
 </template>
 <script setup>
-import { Fingerprint, SquareArrowOutUpRight } from "lucide-vue-next";
+import { Cross, Fingerprint, SquareArrowOutUpRight } from "lucide-vue-next";
 definePageMeta({
   layout: "login",
   components: [Fingerprint, SquareArrowOutUpRight],
@@ -62,6 +62,7 @@ export default {
     // },
   },
   components: {
+    Cross,
     Fingerprint,
     SquareArrowOutUpRight,
   },
