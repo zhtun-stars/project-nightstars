@@ -1,5 +1,5 @@
 <template>
-  <div class="flex pt-6 px-4 flex-grow-1 flex-auto h-[calc(100vh)]">
+  <div class="flex pt-6 px-4 flex-grow-1 flex-auto h-[calc(100vh-100px)]">
     <div class="max-w-[300px] w-[300px]">
       <ClinicalSideList />
     </div>
