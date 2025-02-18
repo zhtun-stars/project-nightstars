@@ -1,42 +1,53 @@
 <template>
-    <Tabs default-value="reviews" class="w-[600px]">
-        <TabsList class="grid w-full grid-cols-3">
-            <TabsTrigger value="reviews" @click="selectTab('reviews')">
-                My Reviews
-            </TabsTrigger>
-            <TabsTrigger value="reviewed" @click="selectTab('reviewed')">
-                Reviewed
-            </TabsTrigger>
-            <TabsTrigger value="required" @click="selectTab('required')">
-                Required To Review
-            </TabsTrigger>
-        </TabsList>
-    </Tabs>
+  <Tabs :default-value="default" class="w-[300px]">
+    <TabsList class="grid w-full grid-cols-2">
+      <TabsTrigger
+        v-for="(tab, index) in tabs"
+        :value="tab.value"
+        :key="index"
+        @click="selectTab(tab.value)"
+      >
+        {{ tab.label }}
+      </TabsTrigger>
+    </TabsList>
+  </Tabs>
 </template>
 
 <script>
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default {
-    data() {
-        return {
-            selectedTab: 'reviews'
-        };
+  data() {
+    return {
+      selectedTab: "reviews",
+    };
+  },
+  props: {
+    tabs: {
+      type: Array,
+      required: true,
     },
-    methods: {
-        selectTab(tab) {
-            if(this.selectedTab === tab) return;
-            this.selectedTab = tab;
-        }
+    default: {
+      type: String,
+      required: true,
     },
-    components: {
-        Tabs, TabsList, TabsTrigger
-    }
+  },
+  methods: {
+    selectTab(tab) {
+      if (this.selectedTab === tab) return;
+      this.selectedTab = tab;
+    },
+  },
+  components: {
+    Tabs,
+    TabsList,
+    TabsTrigger,
+  },
 };
 </script>
 
 <style scoped>
 .clinical-tabs {
-    /* Add your styles here */
+  /* Add your styles here */
 }
 </style>
