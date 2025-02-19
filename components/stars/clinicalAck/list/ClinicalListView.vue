@@ -10,8 +10,6 @@
 
 <script>
 import ClinicalListItem from "./ClinicalListItem.vue";
-import { SORT_ORDER } from "~/lib/constants";
-import { typeSort } from "~/lib/utils";
 
 export default {
   name: "ClinicalListView",

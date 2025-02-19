@@ -1,11 +1,11 @@
 import type { SORT_ORDER } from "./constants";
 
 export interface IFilterSorterColumn {
-  key: String;
-  label: String;
+  key: string;
+  label: string;
 }
 export interface ISort {
-  key: String;
+  key: string;
   order: SORT_ORDER;
 }
 
@@ -14,23 +14,23 @@ export interface IFilter {
 }
 
 export interface ICrew {
-  name: String;
+  name: string;
   reviewDate?: Date;
 }
 
 export interface IClinicalData {
-  mission: String;
+  mission: string;
   date: Date;
   initialReviewedDate?: Date;
   finalReviewedDate?: Date;
-  physician: String;
-  baseName: String;
+  physician: string;
+  baseName: string;
   crews: ICrew[];
 }
 
 export interface IChat {
-  id: String;
-  message: String;
+  id: string;
+  message: string;
   date: Date;
-  user: String;
+  user: string;
 }

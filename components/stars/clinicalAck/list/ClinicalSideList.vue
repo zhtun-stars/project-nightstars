@@ -5,6 +5,7 @@
       @onSort="onSort"
       @onFilter="onFilter"
       @onFilterTextChange="onFilterChange"
+      :defaultSort="sortValue"
       :maxLength="10"
     />
   </div>
@@ -23,11 +24,12 @@ import type {
 } from "~/lib/interfaces";
 import { SORT_ORDER } from "~/lib/constants";
 import { CLINICAL_DATA } from "~/lib/mockdata";
+import { typeSort } from "~/lib/utils";
 
 const sorts: IFilterSorterColumn[] = [
-  { key: "mission", label: "Mission" },
-  { key: "date", label: "Date" },
-  { key: "physician", label: "Physician" },
+  { key: "date", label: "Mission Date" },
+  { key: "initialReviewedDate", label: "Initial Review Date" },
+  { key: "finalReviewedDate", label: "Final Review Date" },
 ];
 
 export default {
@@ -36,13 +38,13 @@ export default {
     sorts: IFilterSorterColumn[];
     sortValue: ISort;
     data: IClinicalData[];
-    filterText: String;
+    filterText: string;
   } {
     return {
       sorts,
       sortValue: {
-        key: "",
-        order: SORT_ORDER.UNKNOWN,
+        key: sorts[0].key,
+        order: SORT_ORDER.ASC,
       } as ISort,
       data: CLINICAL_DATA,
       filterText: "",
@@ -50,13 +52,30 @@ export default {
   },
   computed: {
     sortedData(): IClinicalData[] {
-      return this.data.filter((item) => {
-        if (this.filterText === "") return true;
-        return item.mission
-          .toLowerCase()
-          .includes(this.filterText.toLowerCase());
-      });
-
+      const result = this.data
+        .filter((item) => {
+          if (this.filterText === "") return true;
+          return item.mission
+            .toLowerCase()
+            .includes(this.filterText.toLowerCase());
+        })
+        .sort((a, b) => {
+          if (
+            this.sortValue.key === "" ||
+            this.sortValue.order === SORT_ORDER.UNKNOWN
+          )
+            return 0;
+          else
+            return typeSort(
+              a[this.sortValue.key as keyof IClinicalData],
+              b[this.sortValue.key as keyof IClinicalData]
+            );
+        });
+      if (this.sortValue.order === SORT_ORDER.DESC) {
+        return result.reverse();
+      }
+      console.log(result);
+      return result;
       // sortedData(): IClinicalData[] {
       //   if (this.sorting.order === SORT_ORDER.UNKNOWN) return this.data;
       //   const sortKey = this.sorting.key as keyof IClinicalData;
@@ -74,10 +93,8 @@ export default {
     onSort(sort: ISort) {
       this.sortValue = sort;
     },
-    onFilter(filter: any) {
-      //   console.log(filter);
-    },
-    onFilterChange(filterText: String) {
+    onFilter(filter: any) {},
+    onFilterChange(filterText: string) {
       this.filterText = filterText;
     },
   },

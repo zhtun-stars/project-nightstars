@@ -22,9 +22,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default {
   name: "ClinicalTabsVertical",
   data() {
-    return {
-      selectedTab: this.default,
-    };
+    return {};
   },
   props: {
     tabs: {
@@ -39,8 +37,7 @@ export default {
   emits: ["tabChange"],
   methods: {
     selectTab(tab) {
-      if (this.selectedTab === tab) return;
-      this.selectedTab = tab;
+      if (this.default === tab) return;
       this.$emit("tabChange", tab);
     },
   },

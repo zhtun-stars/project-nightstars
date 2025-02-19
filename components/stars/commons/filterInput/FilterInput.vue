@@ -17,7 +17,7 @@
             <Filter class="w-4 h-4" />
             <FilterX class="w-4 h-4" />
         </Button> -->
-      <SortingPopover :sorts="sorts" @sort="onSort" />
+      <SortingPopover :sorts="sorts" @sort="onSort" :defaultSort="sort" />
     </div>
   </div>
 </template>
@@ -31,7 +31,7 @@ import type { IFilterSorterColumn, ISort, IFilter } from "@/lib/interfaces";
 import { SORT_ORDER } from "~/lib/constants";
 
 interface IFIlterSorter {
-  filterText: String;
+  filterText: string;
   sort: ISort;
   debouncer: NodeJS.Timeout | null;
 }
@@ -40,10 +40,7 @@ export default {
   data(): IFIlterSorter {
     return {
       filterText: "",
-      sort: {
-        key: "",
-        order: SORT_ORDER.UNKNOWN,
-      },
+      sort: this.defaultSort,
       debouncer: null,
     };
   },
@@ -58,7 +55,7 @@ export default {
   emits: {
     onSort: (sort: ISort) => true,
     onFilter: (filter: IFilter) => true,
-    onFilterTextChange: (filterText: String) => true,
+    onFilterTextChange: (filterText: string) => true,
   },
   methods: {
     onInput() {
@@ -82,6 +79,13 @@ export default {
     maxLength: {
       type: Number,
       default: 20,
+    },
+    defaultSort: {
+      type: Object as () => ISort,
+      default: () => ({
+        key: "",
+        order: SORT_ORDER.UNKNOWN,
+      }),
     },
   },
 };

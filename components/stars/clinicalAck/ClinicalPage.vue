@@ -16,8 +16,8 @@
         />
       </div>
       <div class="flex-auto flex-grow-1">
-        <div class="flex pt-2 px-4 flex-grow-1 flex-auto h-[calc(100vh-100px)]">
-          <div class="max-w-[300px] w-[300px]">
+        <div class="flex pt-2 px-4 flex-grow-1 flex-auto h-[calc(100vh-140px)]">
+          <div class="max-w-[400px] w-[400px]">
             <ClinicalSideList />
           </div>
           <div class="px-4">
