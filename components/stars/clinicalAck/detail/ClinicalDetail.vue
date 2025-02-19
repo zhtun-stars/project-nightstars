@@ -3,7 +3,6 @@
     <div class="flex flex-row">
       <div class="flex-1 font-bold text-xl">Mission</div>
       <div class="flex-1">
-        <!-- <ClinicalTabs /> -->
       </div>
     </div>
     <div class="">

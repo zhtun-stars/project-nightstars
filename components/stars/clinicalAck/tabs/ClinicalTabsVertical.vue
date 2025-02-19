@@ -1,12 +1,12 @@
 <template>
   <ClientOnly>
-    <Tabs :default-value="default" class="w-full flex">
-      <TabsList class="flex-1">
+    <Tabs :default-value="default" class="h-full">
+      <TabsList class="grid h-full w-full grid-cols-1">
         <TabsTrigger
           v-for="(tab, index) in tabs"
           :value="tab.value"
           :key="index"
-          class="w-full"
+          class="w-full h-full [writing-mode:vertical-lr] *:transform rotate-180"
           @click="selectTab(tab.value)"
         >
           {{ tab.label }}
@@ -20,6 +20,7 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default {
+  name: "ClinicalTabsVertical",
   data() {
     return {
       selectedTab: "reviews",
@@ -41,8 +42,7 @@ export default {
       this.selectedTab = tab;
     },
   },
-  computed: {
-  },
+  computed: {},
   components: {
     Tabs,
     TabsList,
