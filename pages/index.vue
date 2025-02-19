@@ -19,12 +19,12 @@
             class="w-[150px]"
           />
         </p>
-        <p class="flex-auto flex-grow-1 text-[--foreground] text-justify px-6">
+        <p class="flex-auto flex-grow-1 text-justify px-6 text-white">
           STARS is a lifeline for patients in rural, remote, and indigenous
           communities across Western Canada.
         </p>
         <a
-          class="text-[--foreground] pb-6 px-6"
+          class="text-white pb-6 px-6"
           target="_blank"
           href="https://stars.ca/who-we-are/our-north-star/"
           >Learn More <SquareArrowOutUpRight class="inline-block"
@@ -48,7 +48,7 @@
           <div>
             <Button
               variant=""
-              class="w-full bg-[--star-color]"
+              class="w-full bg-[--star-color] text-white"
               size="lg"
               @click="login"
               >Login</Button
@@ -60,30 +60,39 @@
   </ClientOnly>
 </template>
 <script setup>
-import { Cross, Fingerprint, SquareArrowOutUpRight } from "lucide-vue-next";
+import { Fingerprint, SquareArrowOutUpRight } from "lucide-vue-next";
+import { useSessionStore } from "@/stores/SessionStore";
+
+const colorMode = useColorMode();
+const sessionStore = useSessionStore();
+const router = useRouter();
+
+const login = () => {
+  // auth and retireve apis
+  colorMode.value = "light";
+  sessionStore.setValues({
+    ISADMIN: true,
+    ISAMC: true,
+    ISREVIEWER: true,
+    ISTP: true,
+  });
+
+  sessionStore.setSettings({
+    theme: colorMode.value,
+  });
+
+  router.push("/clinical");
+};
+
 definePageMeta({
+  name: "Login",
   layout: "login",
   components: [Fingerprint, SquareArrowOutUpRight],
-});
-</script>
-
-<script>
-export default {
-  name: "Login",
   props: {
-    // router: {
-    //   type: Object,
-    // },
-  },
-  components: {
-    Cross,
-    Fingerprint,
-    SquareArrowOutUpRight,
-  },
-  methods: {
-    login() {
-      this.$router.push("/clinical");
+    router: {
+      type: Object,
     },
   },
-};
+});
+colorMode.value = "light";
 </script>
