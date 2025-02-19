@@ -1,5 +1,5 @@
 <template>
-  <span class="text-sm">
+  <span class="text-sm bg-[--star-hope] text-[--star-midnight] rounded-full px-2">
     {{ shortName }}
   </span>
 </template>

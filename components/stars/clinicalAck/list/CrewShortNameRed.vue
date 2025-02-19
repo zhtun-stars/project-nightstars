@@ -1,10 +1,10 @@
 <template>
-  <span class="text-sm">
+  <span class="text-sm text-white bg-[--star-color] rounded-full px-2">
     {{ shortName }}
   </span>
 </template>
 <script>
-import { shortTheName } from '~/lib/utils';
+import { shortTheName } from "~/lib/utils";
 
 export default {
   name: "CrewShortNameRed",
