@@ -15,22 +15,18 @@ export interface IFilter {
 
 export interface ICrew {
   name: String;
-  date: Date;
+  reviewDate?: Date;
 }
 
 export interface IClinicalData {
   mission: String;
   date: Date;
-  physicianDate: Date;
-  peerReviewDate: Date;
-  peerReviewed: boolean;
+  initialReviewedDate?: Date;
+  finalReviewedDate?: Date;
   physician: String;
   baseName: String;
-  physicianReview: boolean;
   crews: ICrew[];
-  acknowledged: boolean;
 }
-
 
 export interface IChat {
   id: String;

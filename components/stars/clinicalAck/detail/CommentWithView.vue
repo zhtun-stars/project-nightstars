@@ -6,7 +6,7 @@
           <Button variant="outline" class="relative" size="icon">
             <MessageSquareMore />
             <span
-              class="absolute -top-2 -right-2 rounded-full bg-[#f20808] w-4 h-4 lading-[16px] text-xs block text-[--foreground]"
+              class="absolute -top-2 -right-2 rounded-full bg-[--star-color] w-4 h-4 lading-[16px] text-xs block text-[--foreground]"
               >{{ commentsCount }}</span
             >
           </Button>

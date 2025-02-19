@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import { CLINICAL_DATA } from "@/lib/mockdata";
 import ClinicalListItem from "./ClinicalListItem.vue";
 import { SORT_ORDER } from "~/lib/constants";
 import { typeSort } from "~/lib/utils";
@@ -17,27 +16,20 @@ import { typeSort } from "~/lib/utils";
 export default {
   name: "ClinicalListView",
   props: {
-    // sorting: {
-    //   type: Object as () => ISort,
-    //   required: true,
-    // },
+    data: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
-      data: CLINICAL_DATA,
+      listData: this.data,
     };
   },
   components: {
     ClinicalListItem,
   },
   computed: {
-    // sortedData(): IClinicalData[] {
-    //   if (this.sorting.order === SORT_ORDER.UNKNOWN) return this.data;
-    //   const sortKey = this.sorting.key as keyof IClinicalData;
-    //   return this.data.sort((a, b) => {
-    //     return typeSort(a[sortKey], b[sortKey]);
-    //   });
-    // },
   },
 };
 </script>

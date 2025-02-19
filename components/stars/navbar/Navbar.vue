@@ -1,6 +1,6 @@
 <template>
   <header
-    class="w-full h-12 px-4 sticky top-0 z-50 shadow-md bg-[--background] flex gap-2"
+    class="w-full h-12 px-4 sticky top-0 z-50 shadow-md bg-[--navbar-background] flex gap-2"
   >
     <!--
     <div class="leading-[48px]">

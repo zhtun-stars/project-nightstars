@@ -52,6 +52,7 @@
 
     --list-color: #f6f4f3;
     --list-color-hover: #f6f4f3;
+    --navbar-background: white;
   }
 
   .dark,
@@ -95,7 +96,16 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
 
     --list-color: #1e293b;
+    --navbar-background: #1e293b;
     --list-color-hover: #1e293b66;
+
+    
+    --star-color: #f20808;
+    --star-hope: #91decf;
+    --star-midnight: #0c2e3f;
+    --star-gray: #e0d9d1;
+    --star-white: #f6f4f3;
+
   }
 }
 

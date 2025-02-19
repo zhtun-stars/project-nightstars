@@ -1,11 +1,19 @@
 <template>
   <div class="flex flex-row">
-    <div class="h-[600px] pt-14 pl-2">
-      <ClinicalTabsVertical default="missions" :tabs="tabs" />
+    <div class="pt-14 pl-2">
+      <ClinicalTabsVertical
+        :default="defaultTab"
+        :tabs="tabs"
+        @tabChange="tabChange"
+      />
     </div>
     <div class="flex-auto flex-grow-1 flex flex-col">
       <div class="w-[500px] pt-2 pl-4">
-        <ClinicalTabs default="missions" :tabs="tabs" />
+        <ClinicalTabs
+          :default="defaultTab"
+          :tabs="tabs"
+          @tabChange="tabChange"
+        />
       </div>
       <div class="flex-auto flex-grow-1">
         <div class="flex pt-2 px-4 flex-grow-1 flex-auto h-[calc(100vh-100px)]">
@@ -35,6 +43,7 @@ export default {
   name: "ClinicalPage",
   data() {
     return {
+      defaultTab: "missions",
       clinicalAck: {
         title: "Clinical Acknowledgement",
         content: "This is the clinical acknowledgement content",
@@ -47,6 +56,7 @@ export default {
         { label: "My Missions", value: "missions" },
         { label: "Reviewed Missions", value: "reviewed" },
         { label: "Missions to Review", value: "needing" },
+        { label: "Admin View", value: "admin" },
       ];
     },
   },
@@ -56,6 +66,11 @@ export default {
     ClinicalTabs,
     ClinicalTabsVertical,
     Separator,
+  },
+  methods: {
+    tabChange(tab) {
+      this.defaultTab = tab;
+    },
   },
 };
 </script>

@@ -5,40 +5,43 @@
     >
       <div class="flex flex-col max-h-[calc(100vh-100px)] overflow-auto">
         <div class="flex-1 flex justify-between">
-          <div class="flex-1 font-semibold">
+          <div class="flex-1 flex-grow-1 font-semibold">
             {{ clinicalData.mission }}
           </div>
-          <div
-            class="flex-1 text-right text-xs"
-            v-if="clinicalData.peerReviewed"
-          >
-            <TextTooltip :tooltip="'Peer reviewed it.'">
-              <View class="w-4 h-4 inline-block text-[--star-midnight]" />
-              {{ formatDate }}
-            </TextTooltip>
-          </div>
-          <div class="flex-1 text-right text-xs">
-            <TextTooltip tooltip="You acknowledged it.">
-              <FileCheck class="w-4 h-4 inline-block text-[--star-hope]" />
-            </TextTooltip>
-            {{ shortDate }}
-          </div>
+          <div class="text-xs">{{ missionDate }}</div>
         </div>
         <div class="flex-1 text-sm justify-between flex">
-          <div class="flex-1">
+          <div class="flex-1 flex-grow-1">
             {{ clinicalData.physician }}
           </div>
-          <div class="flex-1 text-right text-xs">
-            {{ physicianReviewDate }}
+          <div
+            class="text-right text-xs pl-2"
+            v-if="clinicalData.initialReviewedDate"
+          >
+            <TextTooltip :tooltip="`Initial reviewed.`">
+              <View class="w-4 h-4 inline-block" />
+              {{ initialReviewedDate }}
+            </TextTooltip>
+          </div>
+          <div
+            class="text-right text-xs pl-2"
+            v-if="clinicalData.finalReviewedDate"
+          >
+            <TextTooltip :tooltip="`Final reviewed.`">
+              <FileCheck class="w-4 h-4 inline-block text-[--star-hope]" />
+              {{ finalReviewedDate }}
+            </TextTooltip>
           </div>
         </div>
-        <div class="flex">
+        <div class="">
           <div
             v-for="(crew, key) in clinicalData.crews"
             :key="key"
-            class="flex-1"
+            class="inline-block pr-2"
           >
-            <CrewShortName :crew="crew" />
+            <CrewShortName v-if="!isAdmin" :crew="crew" />
+            <CrewShortNameBlue v-else-if="crew.reviewDate" :crew="crew" />
+            <CrewShortNameRed v-else :crew="crew" />
           </div>
         </div>
       </div>
@@ -49,9 +52,10 @@
 import moment from "moment";
 
 import CrewShortName from "@/components/stars/clinicalAck/list/CrewShortName.vue";
+import CrewShortNameBlue from "@/components/stars/clinicalAck/list/CrewShortNameBlue.vue";
+import CrewShortNameRed from "@/components/stars/clinicalAck/list/CrewShortNameRed.vue";
 import { FileCheck, View } from "lucide-vue-next";
 import TextTooltip from "../../commons/TextTooltip.vue";
-import { formatDate } from "~/lib/utils";
 
 export default {
   name: "ClinicalListItem",
@@ -63,19 +67,25 @@ export default {
   },
   components: {
     CrewShortName,
+    CrewShortNameBlue,
+    CrewShortNameRed,
     FileCheck,
     View,
     TextTooltip,
   },
+  methods: {},
   computed: {
-    shortDate() {
+    initialReviewedDate() {
       return moment(this.clinicalData.date).format("MMM DD");
     },
-    physicianReviewDate() {
+    finalReviewedDate() {
       return moment(this.clinicalData.physicianDate).format("MMM DD");
     },
-    formatDate() {
-      return moment(this.clinicalData.physicianDate).format("MMM DD");
+    missionDate() {
+      return moment(this.clinicalData.date).format("MMM DD");
+    },
+    isAdmin() {
+      return true;
     },
   },
 };

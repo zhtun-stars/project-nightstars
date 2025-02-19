@@ -22,7 +22,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default {
   data() {
     return {
-      selectedTab: "reviews",
+      selectedTab: this.default,
     };
   },
   props: {
@@ -35,14 +35,15 @@ export default {
       required: true,
     },
   },
+  emits: ["tabChange"],
   methods: {
     selectTab(tab) {
       if (this.selectedTab === tab) return;
       this.selectedTab = tab;
+      this.$emit("tabChange", tab);
     },
   },
-  computed: {
-  },
+  computed: {},
   components: {
     Tabs,
     TabsList,
@@ -50,9 +51,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.clinical-tabs {
-  /* Add your styles here */
-}
-</style>

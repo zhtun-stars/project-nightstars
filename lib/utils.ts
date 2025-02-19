@@ -22,3 +22,6 @@ export function typeSort(
     return a.getTime() - b.getTime();
   } else return 0;
 }
+export const shortTheName = (name: String): String => {
+  return name.length > 9 ? name.substring(0, 8) + "..." : name;
+};

@@ -9,6 +9,7 @@ export const useSessionStore = defineStore("session", {
     SETTINGS: {
         theme: 'light',
     },
+    username: "",
   }),
   getters: {
     isAdmin: (state) => state.ISADMIN,
