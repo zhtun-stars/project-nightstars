@@ -18,7 +18,7 @@
     >
       Critical QA
     </div>
-    <div>
+    <div class="pt-2">
       <ThemeModeSwitch />
     </div>
   </header>
