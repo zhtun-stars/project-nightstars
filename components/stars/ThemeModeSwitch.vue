@@ -9,46 +9,12 @@
 
 <script setup>
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Moon, Sun } from "lucide-vue-next";
+import { useColorMode } from '@vueuse/core';
 
 const colorMode = useColorMode();
 
-definePageMeta({
-  components: [
-    Button,
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-    Moon,
-    Sun,
-  ],
-});
-</script>
-<script>
-export default {
-  name: "ThemeModeSwitch",
-  components: {
-    Button,
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-
-    Moon,
-    Sun,
-  },
-  methods: {
-    changeMode() {
-      this.$colorMode.preference =
-        this.$colorMode.preference === "dark" ? "light" : "dark";
-    },
-  },
-};
+function changeMode() {
+  colorMode.value = colorMode.value === "dark" ? "light" : "dark";
+}
 </script>
