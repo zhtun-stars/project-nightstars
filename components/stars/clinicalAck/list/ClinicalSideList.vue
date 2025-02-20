@@ -74,7 +74,6 @@ export default {
       if (this.sortValue.order === SORT_ORDER.DESC) {
         return result.reverse();
       }
-      console.log(result);
       return result;
       // sortedData(): IClinicalData[] {
       //   if (this.sorting.order === SORT_ORDER.UNKNOWN) return this.data;
