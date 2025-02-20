@@ -34,3 +34,19 @@ export interface IChat {
   date: Date;
   user: string;
 }
+
+export interface IUserInfo {
+  id: string;
+  username: string;
+  loginName: string;
+  email: string;
+  roles: {
+    ISADMIN: boolean;
+    ISTP: boolean;
+    ISAMC: boolean;
+    ISREVIEWER: boolean;
+  };
+  settings: {
+    theme: "light" | "dark";
+  };
+}

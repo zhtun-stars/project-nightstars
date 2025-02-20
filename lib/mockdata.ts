@@ -1,4 +1,4 @@
-import type { IChat, IClinicalData } from "./interfaces";
+import type { IChat, IClinicalData, IUserInfo } from "./interfaces";
 
 const randomNames = [
   "Dr. Jane Doe",
@@ -51,3 +51,19 @@ export const COMMENTS: IChat[] = Array.from(
     user: randomNames[Math.floor(Math.random() * randomNames.length)],
   })
 );
+
+export const USER_INFO: IUserInfo = {
+  id: "1",
+  username: "johndoe",
+  loginName: "John Doe",
+  email: "johndoe@stars.ca",
+  roles: {
+    ISADMIN: true,
+    ISTP: true,
+    ISAMC: true,
+    ISREVIEWER: true,
+  },
+  settings: {
+    theme: "light",
+  },
+};
