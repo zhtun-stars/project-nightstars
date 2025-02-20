@@ -7,7 +7,7 @@ export const useSessionStore = defineStore("session", {
     ISREVIEWER: false,
     ISTP: false,
     SETTINGS: {
-        theme: 'light',
+      theme: "light",
     },
     username: "",
   }),
@@ -27,6 +27,9 @@ export const useSessionStore = defineStore("session", {
     },
     setSettings({ theme }) {
       this.SETTINGS.theme = theme;
-    }
+    },
+    setUserDetails({ username }) {
+      this.username = username;
+    },
   },
 });

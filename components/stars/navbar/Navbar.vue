@@ -19,6 +19,10 @@
       Critical QA
     </div>
     <div class="pt-2">
+      <UserDetailButton />
+    </div>
+
+    <div class="pt-2">
       <ThemeModeSwitch />
     </div>
   </header>
@@ -30,6 +34,7 @@ import { PanelRightOpen } from "lucide-vue-next";
 // import SidebarTrigger from "../ui/sidebar/SidebarTrigger.vue";
 import BreadcrumbPanel from "./BreadcrumbPanel.vue";
 import ThemeModeSwitch from "../ThemeModeSwitch.vue";
+import UserDetailButton from "./UserDetailButton.vue";
 
 export default {
   name: "Navbar",
@@ -37,6 +42,7 @@ export default {
     BreadcrumbPanel,
     PanelRightOpen,
     ThemeModeSwitch,
+    UserDetailButton
     // SidebarTrigger,
   },
 };

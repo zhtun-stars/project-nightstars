@@ -62,6 +62,7 @@
 <script setup>
 import { Fingerprint, SquareArrowOutUpRight } from "lucide-vue-next";
 import { useSessionStore } from "@/stores/SessionStore";
+import { CLINICAL_DATA } from "~/lib/mockdata";
 
 const colorMode = useColorMode();
 const sessionStore = useSessionStore();
@@ -79,6 +80,9 @@ const login = () => {
 
   sessionStore.setSettings({
     theme: colorMode.value,
+  });
+  sessionStore.setUserDetails({
+    username: CLINICAL_DATA[0].physician,
   });
 
   router.push("/clinical");
