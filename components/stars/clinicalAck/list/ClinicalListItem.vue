@@ -1,8 +1,7 @@
 <template>
   <ClientOnly>
     <div
-      class="flex-1 flex flex-col p-3 hover:bg-[--list-color-hover] cursor-pointer odd:bg-[--list-color] rounded-lg mx-1"
-    >
+      class="flex-1 flex flex-col p-3 hover:bg-[--list-color-hover] cursor-pointer odd:bg-[--list-color] rounded-lg mx-1 shadow-md">
       <div class="flex flex-col max-h-[calc(100vh-150px)] overflow-auto">
         <div class="flex-1 flex justify-between pb-2">
           <div class="flex-auto flex-grow-1 font-semibold">

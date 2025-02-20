@@ -44,10 +44,6 @@ export default {
   data() {
     return {
       defaultTab: "missions",
-      clinicalAck: {
-        title: "Clinical Acknowledgement",
-        content: "This is the clinical acknowledgement content",
-      },
     };
   },
   computed: {

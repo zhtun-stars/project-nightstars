@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col max-h-[calc(100vh-210px)] overflow-auto gap-1 thin-scrollbar">
+  <div class="flex flex-col max-h-[calc(100vh-210px)] overflow-auto gap-2 thin-scrollbar">
     <ClinicalListItem
       v-for="(cData, key) in data"
       :key="key"
