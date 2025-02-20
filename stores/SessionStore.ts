@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import type { IUserInfo } from "~/lib/interfaces";
 
 export const useSessionStore = defineStore("session", {
   state: () => ({
@@ -19,14 +20,19 @@ export const useSessionStore = defineStore("session", {
     settings: (state) => state.SETTINGS,
   },
   actions: {
-    setValues({ ISADMIN, ISAMC, ISREVIEWER, ISTP }) {
+    setValues({ ISADMIN, ISAMC, ISREVIEWER, ISTP }: { ISADMIN: boolean; ISAMC: boolean; ISREVIEWER: boolean; ISTP: boolean }) {
       this.ISTP = ISTP;
       this.ISAMC = ISAMC;
       this.ISREVIEWER = ISREVIEWER;
       this.ISADMIN = ISADMIN;
     },
-    setSettings({ theme }) {
+    setSettings({ theme }: {theme: 'light' | 'dark'}) {
       this.SETTINGS.theme = theme;
+    },
+    setUserInfo(userInfo: IUserInfo) {
+      this.setValues(userInfo.roles);
+      this.username = userInfo.loginName;
+      this.SETTINGS = userInfo.settings
     }
   },
 });
