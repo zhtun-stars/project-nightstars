@@ -15,15 +15,15 @@
 </template>
 
 <script lang="ts">
-import FilterInput from "~/components/stars/commons/filterInput/FilterInput.vue";
+import FilterInput from "@/components/stars/commons/filterInput/FilterInput.vue";
 import ClinicalListView from "./ClinicalListView.vue";
 import type {
   IClinicalData,
   IFilterSorterColumn,
   ISort,
 } from "~/lib/interfaces";
-import { SORT_ORDER } from "~/lib/constants";
-import { CLINICAL_DATA } from "~/lib/mockdata";
+import { SORT_ORDER } from "@/lib/constants";
+import { CLINICAL_DATA } from "@/lib/mockdata";
 import { typeSort } from "~/lib/utils";
 
 const sorts: IFilterSorterColumn[] = [
@@ -75,13 +75,6 @@ export default {
         return result.reverse();
       }
       return result;
-      // sortedData(): IClinicalData[] {
-      //   if (this.sorting.order === SORT_ORDER.UNKNOWN) return this.data;
-      //   const sortKey = this.sorting.key as keyof IClinicalData;
-      //   return this.data.sort((a, b) => {
-      //     return typeSort(a[sortKey], b[sortKey]);
-      //   });
-      // },
     },
   },
   components: {
