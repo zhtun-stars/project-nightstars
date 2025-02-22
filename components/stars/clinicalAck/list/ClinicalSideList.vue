@@ -7,6 +7,7 @@
       @onFilterTextChange="onFilterChange"
       :defaultSort="sortValue"
       :maxLength="10"
+      :filters="filters"
     />
   </div>
   <div class="flex-auto">
@@ -24,7 +25,12 @@ import type {
 } from "~/lib/interfaces";
 import { SORT_ORDER } from "@/lib/constants";
 import { CLINICAL_DATA } from "@/lib/mockdata";
-import { typeSort } from "~/lib/utils";
+import {
+  clinicalFilters,
+  sortAndFilterClinicalFilter,
+  typeSort,
+} from "@/lib/common-functions";
+import type { IFilter } from "~/lib/InfFilters";
 
 const sorts: IFilterSorterColumn[] = [
   { key: "date", label: "Mission Date" },
@@ -39,6 +45,8 @@ export default {
     sortValue: ISort;
     data: IClinicalData[];
     filterText: string;
+    filters: IFilter[]; // for filter button
+    filterValues: IFilter[]; // to filter the list
   } {
     return {
       sorts,
@@ -48,33 +56,17 @@ export default {
       } as ISort,
       data: CLINICAL_DATA,
       filterText: "",
+      filters: clinicalFilters,
+      filterValues: [],
     };
   },
   computed: {
     sortedData(): IClinicalData[] {
-      const result = this.data
-        .filter((item) => {
-          if (this.filterText === "") return true;
-          return item.mission
-            .toLowerCase()
-            .includes(this.filterText.toLowerCase());
-        })
-        .sort((a, b) => {
-          if (
-            this.sortValue.key === "" ||
-            this.sortValue.order === SORT_ORDER.UNKNOWN
-          )
-            return 0;
-          else
-            return typeSort(
-              a[this.sortValue.key as keyof IClinicalData],
-              b[this.sortValue.key as keyof IClinicalData]
-            );
-        });
-      if (this.sortValue.order === SORT_ORDER.DESC) {
-        return result.reverse();
-      }
-      return result;
+      return sortAndFilterClinicalFilter(
+        this.data,
+        this.filterText,
+        this.sortValue
+      );
     },
   },
   components: {
@@ -85,7 +77,9 @@ export default {
     onSort(sort: ISort) {
       this.sortValue = sort;
     },
-    onFilter(filter: any) {},
+    onFilter(filter: IFilter[]) {
+      console.log("have to fetch with api", filter);
+    },
     onFilterChange(filterText: string) {
       this.filterText = filterText;
     },

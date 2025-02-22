@@ -4,7 +4,7 @@
   </span>
 </template>
 <script>
-import { shortTheName } from '~/lib/utils';
+import { shortTheName } from '@/lib/common-functions';
 
 export default {
   name: "CrewShortNameRed",

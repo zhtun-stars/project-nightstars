@@ -1,15 +1,12 @@
 <template>
   <ClientOnly>
-    <Tabs
-      :default-value="filter.defaultValue as string | number"
-      class="w-full flex"
-    >
+    <Tabs :default-value="filter.value as string | number" class="w-full flex">
       <TabsList>
         <TabsTrigger
           v-for="(item, index) in filter.selection"
           :key="index"
           :value="item.value"
-          @click="value = item.value"
+          @click="filterValueChange(item.value)"
           >{{ item.label }}</TabsTrigger
         >
       </TabsList>
@@ -30,6 +27,17 @@ export default {
     filter: {
       type: Object as () => IFilter,
       required: true,
+    },
+    index: {
+      type: Number,
+      default: 0,
+    },
+  },
+  emits: ["filterValueChange"],
+  methods: {
+    filterValueChange(value: any) {
+      this.value = value;
+      this.$emit("filterValueChange", this.index, this.filter, value);
     },
   },
   components: {
