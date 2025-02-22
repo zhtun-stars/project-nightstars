@@ -13,7 +13,7 @@
       />
     </div>
     <div>
-      <FilterButton />
+      <FilterButton :filters="filters" @onFilter="onFilter" />
     </div>
     <div>
       <SortingPopover :sorts="sorts" @sort="onSort" :defaultSort="sort" />
@@ -52,7 +52,7 @@ export default {
   },
   emits: {
     onSort: (sort: ISort) => true,
-    onFilter: (filter: IFilter) => true,
+    onFilter: (filter: IFilter[]) => true,
     onFilterTextChange: (filterText: string) => true,
   },
   methods: {
@@ -67,6 +67,9 @@ export default {
     onSort(sort: ISort) {
       this.sort = sort;
       this.$emit("onSort", sort);
+    },
+    onFilter(filters: IFilter[]) {
+      this.$emit("onFilter", filters);
     },
   },
   props: {
@@ -84,6 +87,10 @@ export default {
         key: "",
         order: SORT_ORDER.UNKNOWN,
       }),
+    },
+    filters: {
+      type: Array as () => IFilter[],
+      default: [],
     },
   },
 };

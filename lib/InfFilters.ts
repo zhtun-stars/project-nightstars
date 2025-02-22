@@ -7,7 +7,6 @@ export type IFilter = {
     | { label: string; value: number }[];
   // selection to be select in the filter, date is not included because it will be range picker
   value: { startDate: Date; endDate: Date } | string | number; // value to search for
-  defaultValue: { startDate: Date; endDate: Date } | string | number; // default value to search for
   filter: Function;
 };
 

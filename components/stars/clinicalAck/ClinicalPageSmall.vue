@@ -9,6 +9,7 @@
           @onFilterTextChange="onFilterChange"
           :defaultSort="sortValue"
           :maxLength="10"
+          :filters="filters"
         />
       </div>
       <div class="w-[500px] mr-2">
@@ -19,7 +20,9 @@
         />
       </div>
     </div>
-    <div class="flex-auto flex-grow-1 grid grid-cols-3 gap-4 px-4 pt-4 overflow-auto h-[calc(100vh-150px)] thin-scrollbar">
+    <div
+      class="flex-auto flex-grow-1 grid grid-cols-3 gap-4 px-4 pt-4 overflow-auto h-[calc(100vh-150px)] thin-scrollbar"
+    >
       <div class="col-span-1" v-for="(cData, key) in sortedData" :key="key">
         <ClinicalListItem :clinicalData="cData" />
       </div>
@@ -34,13 +37,14 @@ import ClinicalTabs from "./tabs/ClinicalTabs.vue";
 import FilterInput from "../commons/filterInput/FilterInput.vue";
 import { SORT_ORDER } from "@/lib/constants";
 import { CLINICAL_DATA } from "@/lib/mockdata";
-import { typeSort } from "~/lib/utils";
+import { clinicalFilters, sortAndFilterClinicalFilter, typeSort } from "@/lib/common-functions";
 
 const sorts = [
   { key: "date", label: "Mission Date" },
   { key: "initialReviewedDate", label: "Initial Review Date" },
   { key: "finalReviewedDate", label: "Final Review Date" },
 ];
+
 export default {
   name: "ClinicalPageSmall",
   data() {
@@ -57,29 +61,16 @@ export default {
       },
       data: CLINICAL_DATA,
       filterText: "",
+      filters: clinicalFilters,
     };
   },
   computed: {
     sortedData() {
-      const result = this.data
-        .filter((item) => {
-          if (this.filterText === "") return true;
-          return item.mission
-            .toLowerCase()
-            .includes(this.filterText.toLowerCase());
-        })
-        .sort((a, b) => {
-          if (
-            this.sortValue.key === "" ||
-            this.sortValue.order === SORT_ORDER.UNKNOWN
-          )
-            return 0;
-          else return typeSort(a[this.sortValue.key], b[this.sortValue.key]);
-        });
-      if (this.sortValue.order === SORT_ORDER.DESC) {
-        return result.reverse();
-      }
-      return result;
+      return sortAndFilterClinicalFilter(
+        this.data,
+        this.filterText,
+        this.sortValue
+      );
     },
     tabs() {
       return [
@@ -103,7 +94,9 @@ export default {
     onSort(sort) {
       this.sortValue = sort;
     },
-    onFilter(filter) {},
+    onFilter(filter) {
+      console.log("have to fetch with api",filter);
+    },
     onFilterChange(filterText) {
       this.filterText = filterText;
     },
