@@ -2,7 +2,7 @@
   <div
     class="border order-ring border-gray-300 p-2 flex justify-between h-[48px] leading-[30px] mb-2"
   >
-    <div>
+    <div class="flex-auto flex-grow-1">
       <input
         class="focus:outline-none bg-inherit"
         type="text"
@@ -13,10 +13,9 @@
       />
     </div>
     <div>
-      <!-- <Button variant="ghost" size="icon">
-            <Filter class="w-4 h-4" />
-            <FilterX class="w-4 h-4" />
-        </Button> -->
+      <FilterButton :filters="filters" @onFilter="onFilter" />
+    </div>
+    <div>
       <SortingPopover :sorts="sorts" @sort="onSort" :defaultSort="sort" />
     </div>
   </div>
@@ -24,11 +23,11 @@
 
 <script lang="ts">
 import { Button } from "@/components/ui/button";
-import { Filter, FilterX } from "lucide-vue-next";
 import { Popover, PopoverTrigger } from "@/components/ui/popover";
 import SortingPopover from "./SortingPopover.vue";
 import type { IFilterSorterColumn, ISort, IFilter } from "@/lib/interfaces";
 import { SORT_ORDER } from "~/lib/constants";
+import FilterButton from "../filter-item/FilterButton.vue";
 
 interface IFIlterSorter {
   filterText: string;
@@ -46,15 +45,14 @@ export default {
   },
   components: {
     Button,
-    Filter,
-    FilterX,
+    FilterButton,
     SortingPopover,
     Popover,
     PopoverTrigger,
   },
   emits: {
     onSort: (sort: ISort) => true,
-    onFilter: (filter: IFilter) => true,
+    onFilter: (filter: IFilter[]) => true,
     onFilterTextChange: (filterText: string) => true,
   },
   methods: {
@@ -69,6 +67,9 @@ export default {
     onSort(sort: ISort) {
       this.sort = sort;
       this.$emit("onSort", sort);
+    },
+    onFilter(filters: IFilter[]) {
+      this.$emit("onFilter", filters);
     },
   },
   props: {
@@ -86,6 +87,10 @@ export default {
         key: "",
         order: SORT_ORDER.UNKNOWN,
       }),
+    },
+    filters: {
+      type: Array as () => IFilter[],
+      default: [],
     },
   },
 };
