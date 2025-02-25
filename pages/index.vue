@@ -1,3 +1,38 @@
+<script setup>
+import { Fingerprint, SquareArrowOutUpRight } from "lucide-vue-next";
+
+const {
+  loggedIn,
+  user,
+  session,
+  openInPopup,
+  clear: clearSession,
+} = useUserSession();
+
+const colorMode = useColorMode();
+
+const login = async () => {
+  // await clearSession();
+  const result = await openInPopup("/auth/microsoft");
+};
+
+definePageMeta({
+  name: "Login",
+  layout: "login",
+  components: [Fingerprint, SquareArrowOutUpRight],
+  props: {
+    router: {
+      type: Object,
+    },
+  },
+});
+
+const logout = async () => {
+  await clearSession();
+};
+colorMode.value = "light";
+</script>
+
 <template>
   <ClientOnly>
     <div class="overflow-hidden h-[100vh] max-h-[100vh]">
@@ -46,7 +81,18 @@
             </p>
           </div>
           <div>
+            <template v-if="loggedIn">
+              {{ user }}
+              <Button
+                variant=""
+                class="w-full bg-[--star-color] text-white"
+                size="lg"
+                @click="logout"
+                >Logout</Button
+              >
+            </template>
             <Button
+              v-else
               variant=""
               class="w-full bg-[--star-color] text-white"
               size="lg"
@@ -59,40 +105,3 @@
     </div>
   </ClientOnly>
 </template>
-<script setup>
-import { Fingerprint, SquareArrowOutUpRight } from "lucide-vue-next";
-import { useSessionStore } from "@/stores/SessionStore";
-
-const colorMode = useColorMode();
-const sessionStore = useSessionStore();
-const router = useRouter();
-
-const login = () => {
-  // auth and retireve apis
-  colorMode.value = "light";
-  sessionStore.setValues({
-    ISADMIN: true,
-    ISAMC: true,
-    ISREVIEWER: true,
-    ISTP: true,
-  });
-
-  sessionStore.setSettings({
-    theme: colorMode.value,
-  });
-
-  router.push("/clinical");
-};
-
-definePageMeta({
-  name: "Login",
-  layout: "login",
-  components: [Fingerprint, SquareArrowOutUpRight],
-  props: {
-    router: {
-      type: Object,
-    },
-  },
-});
-colorMode.value = "light";
-</script>
