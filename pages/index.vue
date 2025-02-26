@@ -21,7 +21,7 @@ const colorMode = useColorMode();
 const loading = reactive({ value: true });
 
 const setSession = async () => {
-  await setUserOrRestore(state.user, setUserInfo);
+  state.isAuthenticated && await setUserOrRestore(state.user, setUserInfo);
 };
 
 const handleLogin = async () => {

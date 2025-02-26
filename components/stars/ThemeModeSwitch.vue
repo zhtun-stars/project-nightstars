@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
     <Button variant="outline" @click="changeMode">
-      <Moon v-if="colorMode === 'dark'" />
+      <Moon v-if="colorMode.value === 'dark'" />
       <Sun v-else />
     </Button>
   </ClientOnly>
