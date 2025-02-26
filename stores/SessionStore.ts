@@ -8,7 +8,7 @@ export const useSessionStore = defineStore("session", {
     ISREVIEWER: false,
     ISTP: false,
     SETTINGS: {
-        theme: 'light',
+      theme: "light",
     },
     username: "",
   }),
@@ -18,21 +18,41 @@ export const useSessionStore = defineStore("session", {
     isReviewer: (state) => state.ISREVIEWER,
     isTP: (state) => state.ISTP,
     settings: (state) => state.SETTINGS,
+    theme: (state) => state.SETTINGS.theme,
   },
   actions: {
-    setValues({ ISADMIN, ISAMC, ISREVIEWER, ISTP }: { ISADMIN: boolean; ISAMC: boolean; ISREVIEWER: boolean; ISTP: boolean }) {
+    setValues({
+      ISADMIN,
+      ISAMC,
+      ISREVIEWER,
+      ISTP,
+    }: {
+      ISADMIN: boolean;
+      ISAMC: boolean;
+      ISREVIEWER: boolean;
+      ISTP: boolean;
+    }) {
       this.ISTP = ISTP;
       this.ISAMC = ISAMC;
       this.ISREVIEWER = ISREVIEWER;
       this.ISADMIN = ISADMIN;
     },
-    setSettings({ theme }: {theme: 'light' | 'dark'}) {
+    setSettings({ theme }: { theme: "light" | "dark" }) {
       this.SETTINGS.theme = theme;
     },
     setUserInfo(userInfo: IUserInfo) {
-      this.setValues(userInfo.roles);
+      this.ISTP = userInfo.roles.ISTP;
+      this.ISAMC = userInfo.roles.ISAMC;
+      this.ISREVIEWER = userInfo.roles.ISREVIEWER;
+      this.ISADMIN = userInfo.roles.ISADMIN;
       this.username = userInfo.loginName;
-      this.SETTINGS = userInfo.settings
-    }
+      this.SETTINGS = userInfo.settings;
+    },
+    setUserName(username: string) {
+      this.username = username;
+    },
+    setTheme(theme: "light" | "dark") {
+      this.SETTINGS.theme = theme;
+    },
   },
 });

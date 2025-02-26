@@ -20,7 +20,7 @@
       <PopoverContent class="w-[200px]">
         <div class="flex flex-col">
           <div class="flex-1 text-center">
-            <Button variant="link" @click="$emit('logout')">Logout</Button>
+            <Button variant="link" @click="navigateTo('/logout')">Logout</Button>
           </div>
         </div>
       </PopoverContent>
@@ -40,7 +40,6 @@ export default {
     Avatar,
     CircleUserRound,
   },
-  emit: ["logout"],
   data() {
     return {
       userInfo: {},
@@ -53,7 +52,7 @@ export default {
     ...mapState(useSessionStore, ["username", "settings"]),
   },
   mounted() {
-    loadSession();
+    // loadSession();
   },
 };
 </script>
