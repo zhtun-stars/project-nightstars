@@ -57,7 +57,10 @@ export function msalService() {
         throw new Error("No accounts found. Please login first.");
       }
       const silentRequest = {
-        scopes: ["api://79f1f415-f349-4008-affd-18cbb6c54b95/Po.Read"],
+        scopes: [
+          process.env.NUXT_PUBLIC_MSAL_AUTHORITY ||
+            useRuntimeConfig().public.NUXT_PUBLIC_MSAL_AUTHORITY,
+        ],
         account: accounts[0],
       };
       const silentResponse = await msalInstance.acquireTokenSilent(
