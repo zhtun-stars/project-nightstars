@@ -3,6 +3,11 @@ import { Fingerprint, LogOut, SquareArrowOutUpRight } from "lucide-vue-next";
 import { msalService } from "~/lib/useAuth";
 import { msalInstance, state } from "~/lib/msalConfig";
 import { onMounted, computed } from "vue";
+import { useRoute } from "vue-router";
+import { setUserOrRestore } from "~/lib/setSession";
+import { useSessionStore } from "~/stores/SessionStore";
+const route = useRoute();
+const { setUserInfo } = useSessionStore();
 
 const {
   login,
@@ -13,8 +18,15 @@ const {
 
 const colorMode = useColorMode();
 
+const loading = reactive({ value: true });
+
+const setSession = async () => {
+  await setUserOrRestore(state.user, setUserInfo);
+};
+
 const handleLogin = async () => {
-  await login()
+  await login();
+  await setSession();
 };
 
 const handleLogout = () => {
@@ -32,6 +44,10 @@ const initialize = async () => {
 onMounted(async () => {
   await initialize();
   await handleRedirect();
+  await setSession();
+  colorMode.value = "light";
+  if (route.query.redirect) navigateTo(route.query.redirect);
+  else loading.value = false;
 });
 
 definePageMeta({
@@ -46,13 +62,12 @@ definePageMeta({
 });
 
 const isAuthenticated = computed(() => state.isAuthenticated);
-
-colorMode.value = "light";
 </script>
 
 <template>
   <ClientOnly>
-    <div class="overflow-hidden h-[100vh] max-h-[100vh]">
+    <div v-if="loading.value">loading ... </div>
+    <div v-else class="overflow-hidden h-[100vh] max-h-[100vh]">
       <video autoplay muted loop id="myVideo" class="w-full">
         <source
           src="https://stars.ca/wp-content/uploads/2023/04/NTF-silent-web-banner.mp4"
@@ -61,6 +76,7 @@ colorMode.value = "light";
       </video>
     </div>
     <div
+      v-if="!loading.value"
       class="h-[500px] rounded-md fixed w-[800px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 \ flex bg-[--star-color] shadow-md"
     >
       <div class="px-11 py-14 flex h-full flex-col gap-12">

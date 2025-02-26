@@ -8,8 +8,7 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "shadcn-nuxt",
     "@nuxtjs/color-mode",
-    "@pinia/nuxt",
-    "nuxt-auth-utils",
+    "@pinia/nuxt"
   ],
   shadcn: {
     prefix: "",

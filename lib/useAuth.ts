@@ -4,7 +4,7 @@ import { msalInstance, state } from "./msalConfig";
 export function msalService() {
   const initialize = async () => {
     try {
-      await msalInstance.initialize(); // Call the initialize function
+      await msalInstance.initialize();
     } catch (error) {
       console.error("Initialization error", error);
     }
@@ -12,7 +12,6 @@ export function msalService() {
 
   const login = async () => {
     try {
-      // Check if MSAL is initialized before using it
       if (!msalInstance) {
         throw new Error(
           "MSAL not initialized. Call initializeMsal() before using MSAL API."

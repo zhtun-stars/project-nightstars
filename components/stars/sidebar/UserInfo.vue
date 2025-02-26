@@ -42,7 +42,6 @@ export default {
   },
   data() {
     return {
-      userInfo: {},
     };
   },
   methods: {
@@ -52,8 +51,6 @@ export default {
     ...mapState(useSessionStore, ["username"]),
   },
   async mounted() {
-    const data = await $fetch("/api/user/1");
-    this.setUserInfo(data);
   },
 };
 </script>
