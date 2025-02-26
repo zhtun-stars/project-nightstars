@@ -20,20 +20,8 @@
   <BreadcrumbPanel />
 </template>
 
-<script>
-import { PanelRightOpen } from "lucide-vue-next";
-// import SidebarTrigger from "../ui/sidebar/SidebarTrigger.vue";
+<script setup>
 import BreadcrumbPanel from "./BreadcrumbPanel.vue";
 import ThemeModeSwitch from "../ThemeModeSwitch.vue";
 import UserInfo from "../sidebar/UserInfo.vue";
-
-export default {
-  name: "Navbar",
-  components: {
-    BreadcrumbPanel,
-    PanelRightOpen,
-    ThemeModeSwitch,
-    UserInfo
-  },
-};
 </script>

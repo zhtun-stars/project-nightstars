@@ -20,7 +20,7 @@
       <PopoverContent class="w-[200px]">
         <div class="flex flex-col">
           <div class="flex-1 text-center">
-            <a href="./">Logout</a>
+            <Button variant="link" @click="navigateTo('/logout')">Logout</Button>
           </div>
         </div>
       </PopoverContent>
@@ -32,7 +32,7 @@ import { CircleUserRound } from "lucide-vue-next";
 import Avatar from "~/components/ui/avatar/Avatar.vue";
 import { useSessionStore } from "~/stores/SessionStore";
 import { mapActions, mapState } from "pinia";
-// import UserService from "~/services/UserService";
+import { loadSession } from "~/lib/loadSession";
 
 export default {
   name: "UserInfo",
@@ -42,15 +42,17 @@ export default {
   },
   data() {
     return {
+      userInfo: {},
     };
   },
   methods: {
     ...mapActions(useSessionStore, ["setUserInfo"]),
   },
   computed: {
-    ...mapState(useSessionStore, ["username"]),
+    ...mapState(useSessionStore, ["username", "settings"]),
   },
-  async mounted() {
+  mounted() {
+    // loadSession();
   },
 };
 </script>

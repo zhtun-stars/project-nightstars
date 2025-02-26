@@ -6,5 +6,5 @@ export default defineEventHandler((event) => {
     ? (parseInt(event.context.params.id) as number)
     : 0;
   if (id === 0) return { status: 404, body: { message: "Not Found" } };
-  return USER_INFO;
+  return { user: USER_INFO };
 });
