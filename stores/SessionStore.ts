@@ -3,20 +3,22 @@ import type { IUserInfo } from "~/lib/interfaces";
 
 export const useSessionStore = defineStore("session", {
   state: () => ({
-    ISADMIN: false,
-    ISAMC: false,
-    ISREVIEWER: false,
-    ISTP: false,
+    username: "",
+    roles: {
+      ISADMIN: false,
+      ISAMC: false,
+      ISREVIEWER: false,
+      ISTP: false,
+    },
     SETTINGS: {
       theme: "light",
     },
-    username: "",
   }),
   getters: {
-    isAdmin: (state) => state.ISADMIN,
-    isAMC: (state) => state.ISAMC,
-    isReviewer: (state) => state.ISREVIEWER,
-    isTP: (state) => state.ISTP,
+    isAdmin: (state) => state.roles.ISADMIN,
+    isAMC: (state) => state.roles.ISAMC,
+    isReviewer: (state) => state.roles.ISREVIEWER,
+    isTP: (state) => state.roles.ISTP,
     settings: (state) => state.SETTINGS,
     theme: (state) => state.SETTINGS.theme,
   },
@@ -32,19 +34,19 @@ export const useSessionStore = defineStore("session", {
       ISREVIEWER: boolean;
       ISTP: boolean;
     }) {
-      this.ISTP = ISTP;
-      this.ISAMC = ISAMC;
-      this.ISREVIEWER = ISREVIEWER;
-      this.ISADMIN = ISADMIN;
+      this.roles.ISTP = ISTP;
+      this.roles.ISAMC = ISAMC;
+      this.roles.ISREVIEWER = ISREVIEWER;
+      this.roles.ISADMIN = ISADMIN;
     },
     setSettings({ theme }: { theme: "light" | "dark" }) {
       this.SETTINGS.theme = theme;
     },
     setUserInfo(userInfo: IUserInfo) {
-      this.ISTP = userInfo.roles.ISTP;
-      this.ISAMC = userInfo.roles.ISAMC;
-      this.ISREVIEWER = userInfo.roles.ISREVIEWER;
-      this.ISADMIN = userInfo.roles.ISADMIN;
+      this.roles.ISTP = userInfo.roles.ISTP;
+      this.roles.ISAMC = userInfo.roles.ISAMC;
+      this.roles.ISREVIEWER = userInfo.roles.ISREVIEWER;
+      this.roles.ISADMIN = userInfo.roles.ISADMIN;
       this.username = userInfo.loginName;
       this.SETTINGS = userInfo.settings;
     },

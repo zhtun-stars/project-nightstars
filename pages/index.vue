@@ -4,7 +4,7 @@ import { msalService } from "~/lib/useAuth";
 import { msalInstance, state } from "~/lib/msalConfig";
 import { onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
-import { setUserOrRestore } from "~/lib/setSession";
+import { setUserOrRestore } from "~/lib/sessoinUtils";
 import { useSessionStore } from "~/stores/SessionStore";
 const route = useRoute();
 const { setUserInfo } = useSessionStore();
