@@ -1,20 +1,47 @@
 <script setup>
-import { Fingerprint, SquareArrowOutUpRight } from "lucide-vue-next";
+import { Fingerprint, LogOut, SquareArrowOutUpRight } from "lucide-vue-next";
+import { msalService } from "~/lib/useAuth";
+import { msalInstance, state } from "~/lib/msalConfig";
+const {
+  login,
+  logout,
+  handleRedirect,
+  registerAuthorizationHeaderInterceptor,
+} = msalService();
+
+import { onMounted } from "vue";
 
 const {
   loggedIn,
   user,
   session,
+  fetch: refreshSession,
   openInPopup,
-  clear: clearSession,
+  // clear: clearSession,
 } = useUserSession();
 
 const colorMode = useColorMode();
 
-const login = async () => {
-  // await clearSession();
-  const result = await openInPopup("/auth/microsoft");
+const handleLogin = async () => {
+  await login();
 };
+
+const handleLogout = () => {
+  logout();
+};
+
+const initialize = async () => {
+  try {
+    await msalInstance.initialize();
+    registerAuthorizationHeaderInterceptor(); // Call the initialize function
+  } catch (error) {
+    console.error("Initialization error", error);
+  }
+};
+onMounted(async () => {
+  await initialize();
+  await handleRedirect();
+});
 
 definePageMeta({
   name: "Login",
@@ -26,10 +53,6 @@ definePageMeta({
     },
   },
 });
-
-const logout = async () => {
-  await clearSession();
-};
 colorMode.value = "light";
 </script>
 
@@ -81,22 +104,20 @@ colorMode.value = "light";
             </p>
           </div>
           <div>
-            <template v-if="loggedIn">
-              {{ user }}
-              <Button
-                variant=""
-                class="w-full bg-[--star-color] text-white"
-                size="lg"
-                @click="logout"
-                >Logout</Button
-              >
-            </template>
+            <Button
+              v-if="state.isAuthenticated"
+              variant=""
+              class="w-full bg-[--star-color] text-white"
+              size="lg"
+              @click="handleLogout"
+              >Logout</Button
+            >
             <Button
               v-else
               variant=""
               class="w-full bg-[--star-color] text-white"
               size="lg"
-              @click="login"
+              @click="handleLogin"
               >Login</Button
             >
           </div>
