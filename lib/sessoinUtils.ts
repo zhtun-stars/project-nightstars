@@ -1,4 +1,5 @@
 import type { AccountInfo } from "@azure/msal-browser";
+import type { Roles } from "./interfaces";
 
 export const setUserOrRestore = async (
   user: AccountInfo,
@@ -15,6 +16,10 @@ export const setUserOrRestore = async (
     },
   });
 };
-
-// export isAdminTabAvailable = (roles: any) => {
-// }
+export const isAdminTabAvailable = (roles: Roles): boolean => roles.ISADMIN;
+export const isMyMissionTabAvailable = (roles: Roles): boolean =>
+  roles.ISTP || roles.ISAMC;
+export const isReviewdMissionTabAvailable = (roles: Roles): boolean =>
+  (roles.ISTP || roles.ISAMC) && roles.ISREVIEWER;
+export const isMissionNeedTabAvailable = (roles: Roles): boolean =>
+  (roles.ISTP || roles.ISAMC) && roles.ISREVIEWER;

@@ -144,6 +144,30 @@ body {
   }
 }
 
+.thin-scrollbar-horizontal{
+  /* width */
+  &::-webkit-scrollbar {
+    height: 10px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #eee;
+    border-radius: 5px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 5px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #ddd;
+  }
+}
+
 /* body {
   background-color: #fff;
   color: rgba(0,0,0,0.8);

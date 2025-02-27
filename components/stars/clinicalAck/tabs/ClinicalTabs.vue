@@ -1,6 +1,10 @@
 <template>
   <ClientOnly>
-    <Tabs :default-value="default" class="w-full flex">
+    <Tabs
+      :default-value="default"
+      class="w-full flex max-w-[400px] overflow-y-auto thin-scrollbar-horizontal"
+      v-if="tabs.length > 1"
+    >
       <TabsList class="flex-1">
         <TabsTrigger
           v-for="(tab, index) in tabs"

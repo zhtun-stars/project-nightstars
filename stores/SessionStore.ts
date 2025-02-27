@@ -21,6 +21,7 @@ export const useSessionStore = defineStore("session", {
     isTP: (state) => state.roles.ISTP,
     settings: (state) => state.SETTINGS,
     theme: (state) => state.SETTINGS.theme,
+    getRoles: (state) => state.roles,
   },
   actions: {
     setValues({
@@ -55,6 +56,9 @@ export const useSessionStore = defineStore("session", {
     },
     setTheme(theme: "light" | "dark") {
       this.SETTINGS.theme = theme;
+    },
+    setRoles(roles: any) {
+      this.roles = roles;
     },
   },
 });
