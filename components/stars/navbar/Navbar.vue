@@ -11,6 +11,9 @@
       Critical QA
     </div>
     <div class="pt-2">
+      <MasterButton />
+    </div>
+    <div class="pt-2">
       <UserInfo />
     </div>
     <div class="pt-2">
@@ -24,4 +27,5 @@
 import BreadcrumbPanel from "./BreadcrumbPanel.vue";
 import ThemeModeSwitch from "../ThemeModeSwitch.vue";
 import UserInfo from "../sidebar/UserInfo.vue";
+import MasterButton from "../masterButton/MasterButton.vue";
 </script>

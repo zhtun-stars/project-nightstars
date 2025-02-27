@@ -7,3 +7,10 @@ export enum SORT_ORDER {
   DESC = "DESC",
   UNKNOWN = "UNKNOWN",
 }
+
+
+export const SORTING_FROM_FILTER = [
+  { key: "date", label: "Mission Date" },
+  { key: "initialReviewedDate", label: "Initial Review Date" },
+  { key: "finalReviewedDate", label: "Final Review Date" },
+];

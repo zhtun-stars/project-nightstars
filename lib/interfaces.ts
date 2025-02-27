@@ -40,13 +40,15 @@ export interface IUserInfo {
   username: string;
   loginName: string;
   email: string;
-  roles: {
-    ISADMIN: boolean;
-    ISTP: boolean;
-    ISAMC: boolean;
-    ISREVIEWER: boolean;
-  };
+  roles: Roles;
   settings: {
     theme: "light" | "dark";
   };
 }
+
+export type Roles = {
+  ISADMIN: boolean;
+  ISTP: boolean;
+  ISAMC: boolean;
+  ISREVIEWER: boolean;
+};
