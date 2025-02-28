@@ -21,77 +21,61 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Button } from "@/components/ui/button";
-import { Popover, PopoverTrigger } from "@/components/ui/popover";
+<script lang="ts" setup>
+import { ref, defineEmits, defineProps } from "vue";
 import SortingPopover from "./SortingPopover.vue";
-import type { IFilterSorterColumn, ISort, IFilter } from "@/lib/interfaces";
+import type { IFilterSorterColumn, ISort } from "@/lib/interfaces";
 import { SORT_ORDER } from "~/lib/constants";
 import FilterButton from "../filter-item/FilterButton.vue";
+import type { IFilter } from "~/lib/InfFilters";
 
-interface IFIlterSorter {
-  filterText: string;
-  sort: ISort;
-  debouncer: NodeJS.Timeout | null;
+const props = defineProps({
+  sorts: {
+    type: Array<IFilterSorterColumn>,
+    default: () => [],
+  },
+  maxLength: {
+    type: Number,
+    default: 20,
+  },
+  defaultSort: {
+    type: Object as () => ISort,
+    default: () => ({
+      key: "",
+      order: SORT_ORDER.UNKNOWN,
+    }),
+  },
+  filters: {
+    type: Array<IFilter>,
+    default: () => [],
+  },
+});
+
+const emit = defineEmits<{
+  (e: "onSort", isort: ISort): void;
+  (e: "onFilter", filters: IFilter[]): void;
+  (e: "onFilterTextChange", filterText: string): void;
+}>();
+
+const filterText = ref("");
+const sort = ref(props.defaultSort);
+let debouncer: NodeJS.Timeout | null = null;
+
+function onInput() {
+  if (debouncer) {
+    clearTimeout(debouncer);
+  }
+  debouncer = setTimeout(() => {
+    emit("onFilterTextChange", filterText.value);
+  }, 300);
 }
 
-export default {
-  data(): IFIlterSorter {
-    return {
-      filterText: "",
-      sort: this.defaultSort,
-      debouncer: null,
-    };
-  },
-  components: {
-    Button,
-    FilterButton,
-    SortingPopover,
-    Popover,
-    PopoverTrigger,
-  },
-  emits: {
-    onSort: (sort: ISort) => true,
-    onFilter: (filter: IFilter[]) => true,
-    onFilterTextChange: (filterText: string) => true,
-  },
-  methods: {
-    onInput() {
-      if (this.debouncer) {
-        clearTimeout(this.debouncer);
-      }
-      this.debouncer = setTimeout(() => {
-        this.$emit("onFilterTextChange", this.filterText);
-      }, 300);
-    },
-    onSort(sort: ISort) {
-      this.sort = sort;
-      this.$emit("onSort", sort);
-    },
-    onFilter(filters: IFilter[]) {
-      this.$emit("onFilter", filters);
-    },
-  },
-  props: {
-    sorts: {
-      type: Array<IFilterSorterColumn>,
-      default: [],
-    },
-    maxLength: {
-      type: Number,
-      default: 20,
-    },
-    defaultSort: {
-      type: Object as () => ISort,
-      default: () => ({
-        key: "",
-        order: SORT_ORDER.UNKNOWN,
-      }),
-    },
-    filters: {
-      type: Array as () => IFilter[],
-      default: [],
-    },
-  },
-};
+function onSort(isort: ISort) {
+  sort.value = isort;
+  emit("onSort", isort);
+}
+
+function onFilter(filters: IFilter[]) {
+  emit("onFilter", filters);
+}
 </script>

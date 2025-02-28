@@ -27,7 +27,6 @@ import Separator from "~/components/ui/separator/Separator.vue";
 import ClinicalDetail from "./detail/ClinicalDetail.vue";
 import ClinicalSideList from "./list/ClinicalSideList.vue";
 import ClinicalTabs from "./tabs/ClinicalTabs.vue";
-import ClinicalTabsVertical from "./tabs/ClinicalTabsVertical.vue";
 import { ref, computed } from "vue";
 import {
   isAdminTabAvailable,
