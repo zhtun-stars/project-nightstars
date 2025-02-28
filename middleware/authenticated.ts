@@ -1,3 +1,4 @@
+import { PAGES } from "~/lib/constants";
 import { msalInstance, state } from "~/lib/msalConfig";
 import { msalService } from "~/lib/useAuth";
 
@@ -14,9 +15,9 @@ const initialize = async () => {
   }
 };
 
-export default defineNuxtRouteMiddleware(async () => {
+export default defineNuxtRouteMiddleware(async (from) => {
   await initialize();
   if (!state.isAuthenticated) {
-    return navigateTo("/?redirect=/clinical");
+    return navigateTo(`${PAGES.login}?redirect=${from.path}`);
   }
 });

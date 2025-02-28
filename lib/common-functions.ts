@@ -1,7 +1,7 @@
 import moment from "moment";
 import { dateFilter, stringFilter, type IFilter } from "./InfFilters";
 import type { IClinicalData, ISort } from "./interfaces";
-import { SORT_ORDER } from "./constants";
+import { PAGES, SMALL_SCREENSIZE, SORT_ORDER } from "./constants";
 
 export function formatDate(date: Date): string {
   return moment(date).format("MMM DD, YYYY");
@@ -89,3 +89,6 @@ export const sortAndFilterClinicalFilter = (
   }
   return result;
 };
+
+export const getClinicalPage = (window: Window): string =>
+  window.innerWidth <= SMALL_SCREENSIZE ? PAGES.clinicalSmall : PAGES.clinical;

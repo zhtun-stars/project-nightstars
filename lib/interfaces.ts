@@ -9,10 +9,6 @@ export interface ISort {
   order: SORT_ORDER;
 }
 
-export interface IFilter {
-  mission: "";
-}
-
 export interface ICrew {
   name: string;
   reviewDate?: Date;

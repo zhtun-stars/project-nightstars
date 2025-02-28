@@ -6,6 +6,8 @@ import { onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import { setUserOrRestore } from "~/lib/sessoinUtils";
 import { useSessionStore } from "~/stores/SessionStore";
+import { getClinicalPage } from "~/lib/common-functions";
+import { PAGES } from "~/lib/constants";
 const route = useRoute();
 const { setUserInfo } = useSessionStore();
 
@@ -17,11 +19,10 @@ const {
 } = msalService();
 
 const colorMode = useColorMode();
-
 const loading = reactive({ value: true });
 
 const setSession = async () => {
-  state.isAuthenticated && await setUserOrRestore(state.user, setUserInfo);
+  state.isAuthenticated && (await setUserOrRestore(state.user, setUserInfo));
 };
 
 const handleLogin = async () => {
@@ -61,12 +62,18 @@ definePageMeta({
   },
 });
 
+const goToApp = () => {
+  loading.value = true;
+  // navigateTo(getClinicalPage(window)); // in case would want to change
+  navigateTo(PAGES.clinical);
+};
+
 const isAuthenticated = computed(() => state.isAuthenticated);
 </script>
 
 <template>
   <ClientOnly>
-    <div v-if="loading.value">loading ... </div>
+    <div v-if="loading.value">loading ...</div>
     <div v-else class="overflow-hidden h-[100vh] max-h-[100vh]">
       <video autoplay muted loop id="myVideo" class="w-full">
         <source
@@ -126,7 +133,7 @@ const isAuthenticated = computed(() => state.isAuthenticated);
                 variant=""
                 class="w-full bg-[--star-midnight] text-white"
                 size="lg"
-                @click="navigateTo('/clinical')"
+                @click="goToApp"
                 >Go to Application</Button
               >
               <Button
