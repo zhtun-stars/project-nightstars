@@ -53,6 +53,7 @@ import LoadingIcon from "../../commons/LoadingIcon.vue";
 import ErrorIcon from "../../commons/ErrorIcon.vue";
 import EmptyIcon from "../../commons/EmptyIcon.vue";
 import { retrieveMissions } from "~/server/services";
+import { useMissionStore, IStatus } from "~/stores/missionStore";
 
 const sorts = SORTING_FROM_FILTER;
 

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col max-h-[calc(100vh-210px)] overflow-auto gap-2 thin-scrollbar"
+    class="flex flex-col max-h-[calc(100vh-210px)] overflow-auto gap-4 thin-scrollbar"
   >
     <ClinicalListItem
       v-for="(cData, key) in textFilter(store.missions, store.filterText)"
