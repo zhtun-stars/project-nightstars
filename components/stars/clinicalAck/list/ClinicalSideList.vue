@@ -9,7 +9,7 @@
       @onSort="onSort"
       @onFilter="onFilter"
       @onFilterTextChange="onFilterChange"
-      :defaultSort="sortValue"
+      :defaultSort="store.sortValue"
       :maxLength="10"
       :filters="filters"
     />
@@ -42,12 +42,11 @@
 <script lang="ts" setup>
 import FilterInput from "@/components/stars/commons/filterInput/FilterInput.vue";
 import ClinicalListView from "./ClinicalListView.vue";
-import type { ISort, Mission } from "~/lib/interfaces";
-import { SORT_ORDER, SORTING_FROM_FILTER } from "@/lib/constants";
+import type { ISort } from "~/lib/interfaces";
+import { SORTING_FROM_FILTER } from "@/lib/constants";
 import {
   clinicalFilters as filters,
   sortAndFilterClinicalFilter,
-  textFilter,
 } from "@/lib/common-functions";
 import type { IFilter } from "~/lib/InfFilters";
 import LoadingIcon from "../../commons/LoadingIcon.vue";
@@ -57,11 +56,6 @@ import { retrieveMissions } from "~/server/services";
 
 const sorts = SORTING_FROM_FILTER;
 
-const sortValue = ref({
-  key: sorts[0].key,
-  order: SORT_ORDER.ASC,
-} as ISort);
-
 const store = useMissionStore();
 const userStore = useSessionStore();
 
@@ -70,14 +64,14 @@ const loadData = async () => {
 
   const resultData = await retrieveMissions(userStore.username);
 
-  const data = sortAndFilterClinicalFilter(resultData, sortValue.value);
+  const data = sortAndFilterClinicalFilter(resultData, store.sortValue);
 
   store.setMissions(data);
   store.missionListStatus = IStatus.idle;
 };
 
 const onSort = (sort: ISort) => {
-  sortValue.value = sort;
+  store.sortValue = sort;
   loadData().then().catch();
 };
 

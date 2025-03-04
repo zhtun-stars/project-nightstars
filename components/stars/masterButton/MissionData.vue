@@ -52,8 +52,11 @@
 <script lang="ts" setup>
 import { Grid, HardDrive, TriangleAlert } from "lucide-vue-next";
 import LoadingSvg from "../commons/LoadingSvg.vue";
+import { retrieveMissions } from "~/server/services";
+import { sortAndFilterClinicalFilter } from "~/lib/common-functions";
 
 const store = useMissionStore();
+const sessionStore = useSessionStore();
 const status = ref<IStatus | "EMPTY">(store.missionListStatus);
 
 const selectTab = (value: IStatus | "EMPTY") => {
@@ -70,6 +73,7 @@ const selectTab = (value: IStatus | "EMPTY") => {
         break;
       case IStatus.idle:
         store.missionListStatus = IStatus.idle;
+        loadData().then().catch();
         break;
       case "EMPTY":
         store.missionListStatus = IStatus.idle;
@@ -77,7 +81,19 @@ const selectTab = (value: IStatus | "EMPTY") => {
         break;
       default:
         store.missionListStatus = IStatus.idle;
+        loadData().then().catch();
+        break;
     }
   }
+};
+
+const loadData = async () => {
+  store.missionListStatus = IStatus.loading;
+  const resultData = await retrieveMissions(sessionStore.username);
+
+  const data = sortAndFilterClinicalFilter(resultData, store.sortValue);
+
+  store.setMissions(data);
+  store.missionListStatus = IStatus.idle;
 };
 </script>

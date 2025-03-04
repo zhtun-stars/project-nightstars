@@ -9,7 +9,7 @@
             @onSort="onSort"
             @onFilter="onFilter"
             @onFilterTextChange="onFilterChange"
-            :defaultSort="sortValue"
+            :defaultSort="missionStore.sortValue"
             :maxLength="10"
             :filters="filters"
           />
@@ -62,10 +62,6 @@ import type { ISort } from "~/lib/interfaces";
 const sorts = SORTING_FROM_FILTER;
 const missionStore = useMissionStore();
 const store = useSessionStore();
-const sortValue = ref<ISort>({
-  key: sorts[0].key,
-  order: SORT_ORDER.ASC,
-});
 
 const filters = clinicalFilters;
 
@@ -75,7 +71,7 @@ const tabChange = (tab: string) => {
   defaultTab.value = tab;
 };
 const onSort = (sort: ISort) => {
-  sortValue.value = sort;
+  missionStore.sortValue = sort;
   loadData().then().catch();
 };
 const onFilter = (filter: any) => {
@@ -93,7 +89,7 @@ const loadData = async () => {
   missionStore.missionListStatus = IStatus.loading;
   const resultData = await retrieveMissions(store.username);
 
-  const data = sortAndFilterClinicalFilter(resultData, sortValue.value);
+  const data = sortAndFilterClinicalFilter(resultData, missionStore.sortValue);
 
   missionStore.setMissions(data);
   missionStore.missionListStatus = IStatus.idle;
