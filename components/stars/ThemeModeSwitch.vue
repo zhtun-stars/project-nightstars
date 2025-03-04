@@ -21,7 +21,6 @@ onMounted(() => {
 
 function changeMode() {
   colorMode.value = colorMode.value === "dark" ? "light" : "dark";
-  console.log(colorMode.value)
   setTheme(colorMode.value);
 }
 </script>

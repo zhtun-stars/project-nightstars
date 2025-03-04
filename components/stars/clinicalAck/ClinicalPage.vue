@@ -33,7 +33,7 @@ import {
   isMissionNeedTabAvailable,
   isMyMissionTabAvailable,
   isReviewdMissionTabAvailable,
-} from "~/lib/sessoinUtils";
+} from "~/lib/sessionUtils";
 
 const store = useSessionStore();
 
@@ -54,36 +54,4 @@ const tabs = computed(() => {
 const tabChange = (tab) => {
   defaultTab.value = tab;
 };
-
-// export default {
-//   name: "ClinicalPage",
-//   data() {
-//     return {
-//       defaultTab: "missions",
-//     };
-//   },
-//   computed: {
-//     tabs() {
-//       let tabs = [];
-//       tabs.push({ label: "My Missions", value: "missions" });
-//       tabs.push({ label: "Reviewed Missions", value: "reviewed" });
-//       tabs.push({ label: "Missions to Review", value: "needing" });
-//       if()
-//       tabs.push({ label: "Admin View", value: "admin" });
-//       return tabs;
-//     },
-//   },
-//   components: {
-//     ClinicalDetail,
-//     ClinicalSideList,
-//     ClinicalTabs,
-//     ClinicalTabsVertical,
-//     Separator,
-//   },
-//   methods: {
-//     tabChange(tab) {
-//       this.defaultTab = tab;
-//     },
-//   },
-// };
 </script>

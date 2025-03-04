@@ -1,12 +1,17 @@
 import type { AccountInfo } from "@azure/msal-browser";
-import type { Roles } from "./interfaces";
+import type { IUserInfo, Roles } from "./interfaces";
+import { EmitFlags } from "typescript";
 
 export const setUserOrRestore = async (
   user: AccountInfo,
-  setUserInfo: Function
+  setUserInfo: (user: IUserInfo) => void
 ) => {
   setUserInfo({
-    loginName: user.name,
+    FullName: user.name || '',
+    FirstName: '',
+    LastName: '',
+    Email: user.username,
+    UserName: user.username.split("@")[0],
     settings: { theme: "light" },
     roles: {
       ISADMIN: true,

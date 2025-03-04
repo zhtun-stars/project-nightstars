@@ -11,15 +11,17 @@
             >
           </Button>
         </PopoverTrigger>
-        <PopoverContent>
-          <div class="p-4">
+        <PopoverContent class="mr-2 w-[400px]">
+          <div class="flex flex-col gap-4">
             <div class="flex items-center justify-between">
               <div class="text-lg font-bold">Comments</div>
               <div class="text-sm text-muted-foreground">
                 {{ commentsCount }}
               </div>
             </div>
-            <div class="grid gap-2">
+            <div
+              class="grid gap-2 max-h-[400px] overflow-auto thin-scrollbar p-4 bg-[--comment-background]"
+            >
               <template v-for="(comment, index) in data" :key="index">
                 <div
                   class="flex justify-between space-x-4 [&:not(:nth-last-child(-n+1))]:border-b border-gray-300 pb-2"
@@ -48,13 +50,24 @@
                 </div>
               </template>
             </div>
-          </div></PopoverContent
-        >
+            <div>
+              <Separator label="New Comment" />
+            </div>
+            <div>
+              <Textarea placeholder="Add your comment here" />
+            </div>
+            <div>
+              <Button variant="secondary" class="w-full">
+                Submit Comment
+              </Button>
+            </div>
+          </div>
+        </PopoverContent>
       </Popover>
     </div>
   </ClientOnly>
 </template>
-<script>
+<script setup>
 import { COMMENTS } from "@/lib/mockdata";
 import { CalendarDays, MessageSquareMore } from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
@@ -64,24 +77,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export default {
-  name: "CommentWithView",
-  data() {
-    return {
-      data: COMMENTS,
-    };
-  },
-  components: {
-    CalendarDays,
-    MessageSquareMore,
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-  },
-  computed: {
-    commentsCount() {
-      return this.data.length;
-    },
-  },
-};
+const data = COMMENTS;
+
+const commentsCount = computed(() => {
+  return data.length;
+});
 </script>

@@ -1,36 +1,18 @@
 <template>
-  <div class="flex flex-col max-h-[calc(100vh-210px)] overflow-auto gap-2 thin-scrollbar">
+  <div
+    class="flex flex-col max-h-[calc(100vh-210px)] overflow-auto gap-4 thin-scrollbar"
+  >
     <ClinicalListItem
-      v-for="(cData, key) in data"
+      v-for="(cData, key) in textFilter(store.missions, store.filterText)"
       :key="key"
       :clinicalData="cData"
     />
   </div>
 </template>
 
-<script>
+<script setup>
+import { textFilter } from "~/lib/common-functions";
 import ClinicalListItem from "./ClinicalListItem.vue";
-
-export default {
-  name: "ClinicalListView",
-  props: {
-    data: {
-      type: Array,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      listData: this.data,
-    };
-  },
-  components: {
-    ClinicalListItem,
-  },
-  computed: {
-  },
-};
+const store = useMissionStore();
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

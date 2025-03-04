@@ -4,12 +4,14 @@ import type { IUserInfo } from "~/lib/interfaces";
 export const useSessionStore = defineStore("session", {
   state: () => ({
     username: "",
+    fullName: "",
     roles: {
       ISADMIN: false,
       ISAMC: false,
       ISREVIEWER: false,
       ISTP: false,
     },
+    email: "",
     SETTINGS: {
       theme: "light",
     },
@@ -48,8 +50,10 @@ export const useSessionStore = defineStore("session", {
       this.roles.ISAMC = userInfo.roles.ISAMC;
       this.roles.ISREVIEWER = userInfo.roles.ISREVIEWER;
       this.roles.ISADMIN = userInfo.roles.ISADMIN;
-      this.username = userInfo.loginName;
+      this.username = userInfo.UserName;
       this.SETTINGS = userInfo.settings;
+      this.email = userInfo.Email;
+      this.fullName = userInfo.FullName;
     },
     setUserName(username: string) {
       this.username = username;

@@ -1,6 +1,6 @@
 import moment from "moment";
 import { dateFilter, stringFilter, type IFilter } from "./InfFilters";
-import type { IClinicalData, ISort } from "./interfaces";
+import type { IClinicalData, ISort, Mission } from "./interfaces";
 import { PAGES, SMALL_SCREENSIZE, SORT_ORDER } from "./constants";
 
 export function formatDate(date: Date): string {
@@ -19,10 +19,12 @@ export function typeSort(
     return a.getTime() - b.getTime();
   } else if (a === undefined || a === null) {
     return -1;
+  } else if (b === undefined || b === null) {
+    return 1;
   } else return 0;
 }
 export const shortTheName = (name: String): String => {
-  return name.length > 12 ? name.substring(0, 11) + "..." : name;
+  return name ? (name.length > 12 ? name.substring(0, 11) + "..." : name) : "";
 };
 
 const dateRanges = {
@@ -66,29 +68,79 @@ export const clinicalFilters: IFilter[] = [
 ];
 
 export const sortAndFilterClinicalFilter = (
-  data: IClinicalData[],
-  filterText: string,
+  data: Mission[],
   sortValue: ISort
-): IClinicalData[] => {
-  let result = data
-    .filter((item) => {
-      if (filterText === "") return true;
-      return item.mission.toLowerCase().includes(filterText.toLowerCase());
-    })
-    .sort((a, b) => {
-      if (sortValue.key === "" || sortValue.order === SORT_ORDER.UNKNOWN)
-        return 0;
-      else
-        return typeSort(
-          a[sortValue.key as keyof IClinicalData],
-          b[sortValue.key as keyof IClinicalData]
-        );
-    });
+): Mission[] => {
+  let result = data.sort((a, b) => {
+    if (sortValue.key === "" || sortValue.order === SORT_ORDER.UNKNOWN)
+      return 0;
+    else
+      return typeSort(
+        a[sortValue.key as keyof Mission],
+        b[sortValue.key as keyof Mission]
+      );
+  });
   if (sortValue.order === SORT_ORDER.DESC) {
     return result.reverse();
   }
-  return result;
+  if (
+    sortValue.key === "InitialReviewDate" ||
+    sortValue.key === "FinalReviewDate"
+  ) {
+    return result;
+  } else {
+    return [
+      ...result.filter(
+        (item) =>
+          item.FinalReviewDate === undefined &&
+          item.InitialReviewDate === undefined
+      ),
+      ...result.filter(
+        (item) =>
+          item.FinalReviewDate === undefined &&
+          item.InitialReviewDate !== undefined
+      ),
+      ...result.filter(
+        (item) =>
+          item.FinalReviewDate !== undefined &&
+          item.InitialReviewDate !== undefined
+      ),
+    ];
+  }
 };
+
+export const textFilter = (missions: Mission[], filterText: string) =>
+  missions.filter((item) => {
+    if (filterText === "") return true;
+    return item.EventNumber.toLowerCase().includes(filterText.toLowerCase());
+  });
 
 export const getClinicalPage = (window: Window): string =>
   window.innerWidth <= SMALL_SCREENSIZE ? PAGES.clinicalSmall : PAGES.clinical;
+export const getFullname = (firstName: string, lastName: string) =>
+  `${lastName} ${firstName}`;
+
+export const convertData = (data: IClinicalData[]): Mission[] =>
+  data.map((item: IClinicalData, index: number) => ({
+    PCRID: index,
+    EventID: index,
+    EventUnitID: index,
+    InitialReviewDate: item.initialReviewedDate,
+    FinalReviewDate: item.finalReviewedDate,
+    FinalReviewBy: item.finalReviewer,
+    InitialReviewBy: item.initialReviewer,
+    CrewID: index,
+    LastName: "Doe",
+    FirstName: "John",
+    PositionID: index,
+    Position: "EMT",
+    LoginID: "johndoe",
+    EventDate: item.date,
+    HasRead: false,
+    InitialReviewerID: item.initialReviewedDate ? 1 : 0,
+    FinalReviewerID: item.finalReviewedDate ? 1 : 0,
+    BaseID: 1,
+    MissionBase: item.baseName,
+    FuLLName: item.physician,
+    EventNumber: item.mission,
+  }));

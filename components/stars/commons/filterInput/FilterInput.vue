@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, defineEmits, defineProps } from "vue";
+import { ref } from "vue";
 import SortingPopover from "./SortingPopover.vue";
 import type { IFilterSorterColumn, ISort } from "@/lib/interfaces";
 import { SORT_ORDER } from "~/lib/constants";
@@ -48,6 +48,10 @@ const props = defineProps({
   filters: {
     type: Array<IFilter>,
     default: () => [],
+  },
+  defaultFilterText: {
+    type: String,
+    default: "",
   },
 });
 
@@ -78,4 +82,8 @@ function onSort(isort: ISort) {
 function onFilter(filters: IFilter[]) {
   emit("onFilter", filters);
 }
+
+onMounted(() => {
+  filterText.value = props.defaultFilterText;
+});
 </script>
