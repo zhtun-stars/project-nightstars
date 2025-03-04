@@ -99,7 +99,6 @@ const finalReviewer = computed(() => ({
 }));
 
 const background = computed(() => {
-  console.log(moment(clinicalData.EventDate).diff(moment(), "days"));
   if (
     !clinicalData.FinalReviewDate &&
     moment().diff(moment(clinicalData.EventDate), "days") > 45
