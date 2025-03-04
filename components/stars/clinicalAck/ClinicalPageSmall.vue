@@ -4,6 +4,7 @@
       <div class="flex flex-row justify-between">
         <div class="w-[500px] pt-2 pl-4">
           <FilterInput
+            :defaultFilterText="missionStore.filterText"
             :sorts="sorts"
             @onSort="onSort"
             @onFilter="onFilter"
@@ -24,7 +25,14 @@
       <div
         class="flex-auto flex-grow-1 grid grid-cols-3 gap-4 px-4 pt-4 overflow-auto h-[calc(100vh-150px)] thin-scrollbar"
       >
-        <div class="col-span-1" v-for="(cData, key) in sortedData" :key="key">
+        <div
+          class="col-span-1"
+          v-for="(cData, key) in textFilter(
+            missionStore.missions,
+            missionStore.filterText
+          )"
+          :key="key"
+        >
           <ClinicalListItem :clinicalData="cData" />
         </div>
       </div>
@@ -32,15 +40,15 @@
   </ClientOnly>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import ClinicalListItem from "./list/ClinicalListItem.vue";
 import ClinicalTabs from "./tabs/ClinicalTabs.vue";
 import FilterInput from "../commons/filterInput/FilterInput.vue";
 import { SORT_ORDER, SORTING_FROM_FILTER } from "@/lib/constants";
-import { CLINICAL_DATA } from "@/lib/mockdata";
 import {
   clinicalFilters,
   sortAndFilterClinicalFilter,
+  textFilter,
 } from "@/lib/common-functions";
 import {
   isAdminTabAvailable,
@@ -48,37 +56,48 @@ import {
   isMyMissionTabAvailable,
   isReviewdMissionTabAvailable,
 } from "~/lib/sessionUtils";
+import { retrieveMissions } from "~/server/services";
+import type { ISort } from "~/lib/interfaces";
 
-const sorts =SORTING_FROM_FILTER;
-
+const sorts = SORTING_FROM_FILTER;
+const missionStore = useMissionStore();
 const store = useSessionStore();
-const sortValue = reactive({
+const sortValue = ref<ISort>({
   key: sorts[0].key,
   order: SORT_ORDER.ASC,
 });
-const data = CLINICAL_DATA;
-const filterText = ref("");
 
 const filters = clinicalFilters;
 
-const defaultTab = ref("missions");
+const defaultTab = ref<string>("missions");
 
-const tabChange = (tab) => {
+const tabChange = (tab: string) => {
   defaultTab.value = tab;
 };
-const onSort = (sort) => {
+const onSort = (sort: ISort) => {
   sortValue.value = sort;
+  loadData().then().catch();
 };
-const onFilter = (filter) => {
+const onFilter = (filter: any) => {
   console.log("have to fetch with api", filter);
 };
-const onFilterChange = (text) => {
-  filterText.value = text;
+const onFilterChange = (text: string) => {
+  missionStore.filterText = text;
 };
 
-const sortedData = computed(() => {
-  return sortAndFilterClinicalFilter(data, filterText.value, sortValue);
+onMounted(() => {
+  loadData().then().catch();
 });
+
+const loadData = async () => {
+  missionStore.missionListStatus = IStatus.loading;
+  const resultData = await retrieveMissions(store.username);
+
+  const data = sortAndFilterClinicalFilter(resultData, sortValue.value);
+
+  missionStore.setMissions(data);
+  missionStore.missionListStatus = IStatus.idle;
+};
 
 const tabs = computed(() => {
   let tabs = [];

@@ -69,23 +69,17 @@ export const clinicalFilters: IFilter[] = [
 
 export const sortAndFilterClinicalFilter = (
   data: Mission[],
-  filterText: string,
   sortValue: ISort
 ): Mission[] => {
-  let result = data
-    .filter((item) => {
-      if (filterText === "") return true;
-      return item.EventNumber.toLowerCase().includes(filterText.toLowerCase());
-    })
-    .sort((a, b) => {
-      if (sortValue.key === "" || sortValue.order === SORT_ORDER.UNKNOWN)
-        return 0;
-      else
-        return typeSort(
-          a[sortValue.key as keyof Mission],
-          b[sortValue.key as keyof Mission]
-        );
-    });
+  let result = data.sort((a, b) => {
+    if (sortValue.key === "" || sortValue.order === SORT_ORDER.UNKNOWN)
+      return 0;
+    else
+      return typeSort(
+        a[sortValue.key as keyof Mission],
+        b[sortValue.key as keyof Mission]
+      );
+  });
   if (sortValue.order === SORT_ORDER.DESC) {
     return result.reverse();
   }
@@ -114,6 +108,12 @@ export const sortAndFilterClinicalFilter = (
     ];
   }
 };
+
+export const textFilter = (missions: Mission[], filterText: string) =>
+  missions.filter((item) => {
+    if (filterText === "") return true;
+    return item.EventNumber.toLowerCase().includes(filterText.toLowerCase());
+  });
 
 export const getClinicalPage = (window: Window): string =>
   window.innerWidth <= SMALL_SCREENSIZE ? PAGES.clinicalSmall : PAGES.clinical;

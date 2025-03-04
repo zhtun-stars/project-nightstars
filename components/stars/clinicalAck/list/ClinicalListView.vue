@@ -3,7 +3,7 @@
     class="flex flex-col max-h-[calc(100vh-210px)] overflow-auto gap-2 thin-scrollbar"
   >
     <ClinicalListItem
-      v-for="(cData, key) in store.missions"
+      v-for="(cData, key) in textFilter(store.missions, store.filterText)"
       :key="key"
       :clinicalData="cData"
     />
@@ -11,6 +11,7 @@
 </template>
 
 <script setup>
+import { textFilter } from "~/lib/common-functions";
 import ClinicalListItem from "./ClinicalListItem.vue";
 const store = useMissionStore();
 </script>

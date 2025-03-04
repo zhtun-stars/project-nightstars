@@ -4,6 +4,7 @@
       <slot></slot>
     </div>
     <FilterInput
+      :defaultFilterText="store.filterText"
       :sorts="sorts"
       @onSort="onSort"
       @onFilter="onFilter"
@@ -43,11 +44,10 @@ import FilterInput from "@/components/stars/commons/filterInput/FilterInput.vue"
 import ClinicalListView from "./ClinicalListView.vue";
 import type { ISort, Mission } from "~/lib/interfaces";
 import { SORT_ORDER, SORTING_FROM_FILTER } from "@/lib/constants";
-import { CLINICAL_DATA } from "@/lib/mockdata";
 import {
-  convertData,
   clinicalFilters as filters,
   sortAndFilterClinicalFilter,
+  textFilter,
 } from "@/lib/common-functions";
 import type { IFilter } from "~/lib/InfFilters";
 import LoadingIcon from "../../commons/LoadingIcon.vue";
@@ -61,28 +61,24 @@ const sortValue = ref({
   key: sorts[0].key,
   order: SORT_ORDER.ASC,
 } as ISort);
-const filterText = ref("");
 
 const store = useMissionStore();
 const userStore = useSessionStore();
 
-const sortedData = async () => {
+const loadData = async () => {
   store.missionListStatus = IStatus.loading;
 
   const resultData = await retrieveMissions(userStore.username);
 
-  const data = sortAndFilterClinicalFilter(
-    resultData,
-    filterText.value,
-    sortValue.value
-  );
+  const data = sortAndFilterClinicalFilter(resultData, sortValue.value);
+
   store.setMissions(data);
   store.missionListStatus = IStatus.idle;
 };
 
 const onSort = (sort: ISort) => {
   sortValue.value = sort;
-  sortedData().then().catch();
+  loadData().then().catch();
 };
 
 const onFilter = (filter: IFilter[]) => {
@@ -90,10 +86,10 @@ const onFilter = (filter: IFilter[]) => {
 };
 
 const onFilterChange = (text: string) => {
-  filterText.value = text;
+  store.filterText = text;
 };
 
 onMounted(() => {
-  sortedData().then().catch();
+  loadData().then().catch();
 });
 </script>

@@ -5,6 +5,7 @@ export type IMissionSession = {
   currentMission?: Mission;
   missions: Mission[];
   missionListStatus: IStatus;
+  filterText: string;
 };
 
 export enum IStatus {
@@ -17,6 +18,7 @@ export const useMissionStore = defineStore("mission", {
   state: (): IMissionSession => ({
     missions: [],
     missionListStatus: IStatus.idle,
+    filterText: "",
   }),
   getters: {},
   actions: {

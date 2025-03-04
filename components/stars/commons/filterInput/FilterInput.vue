@@ -49,6 +49,10 @@ const props = defineProps({
     type: Array<IFilter>,
     default: () => [],
   },
+  defaultFilterText: {
+    type: String,
+    default: "",
+  },
 });
 
 const emit = defineEmits<{
@@ -78,4 +82,8 @@ function onSort(isort: ISort) {
 function onFilter(filters: IFilter[]) {
   emit("onFilter", filters);
 }
+
+onMounted(() => {
+  filterText.value = props.defaultFilterText;
+});
 </script>
