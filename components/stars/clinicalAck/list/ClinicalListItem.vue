@@ -1,17 +1,20 @@
 <template>
   <ClientOnly>
     <div
-      :class="`flex-1 flex flex-col p-3 hover:bg-[--list-color-hover] cursor-pointer odd:bg-[--list-color] rounded-lg mx-1 shadow-md ${background}`"
+      :class="`flex-1 flex flex-col p-3 hover:bg-[--list-color-hover] cursor-pointer odd:bg-[--list-color] rounded-lg mx-1 shadow-md`"
     >
-      <div class="flex flex-col max-h-[calc(100vh-150px)] overflow-auto">
-        <div class="flex-1 flex justify-between pb-2">
-          <div class="flex-auto flex-grow-1 font-semibold">
+      <div class="">
+        <div class="flex-1 relative">
+          <div class="font-semibold">
             {{ clinicalData.EventNumber }}
           </div>
-          <div class="pr-2">
-            <TriangleAlert class="w-4 text-[--star-color]" v-if="background !== ''" />
+          <div :class="`pr-2 flex absolute px-2 ${background}`">
+            <TriangleAlert
+              class="w-4 text-[--star-color]"
+              v-if="background !== 'normal'"
+            />
+            <div class="font-semibold pl-2">{{ missionDate }}</div>
           </div>
-          <div class="font-semibold">{{ missionDate }}</div>
         </div>
         <div class="flex-1 text-sm justify-between flex pb-2">
           <div class="flex-auto flex-grow-1">
@@ -98,7 +101,7 @@ const finalReviewer = computed(() => ({
   reviewDate: clinicalData.FinalReviewDate,
 }));
 
-const background = computed(() => {
+const background = computed((): "normal" | "overdueI" | "overdueF" => {
   console.log(moment(clinicalData.EventDate).diff(moment(), "days"));
   if (
     !clinicalData.FinalReviewDate &&
@@ -111,14 +114,39 @@ const background = computed(() => {
   ) {
     return "overdueI";
   }
-  return "";
+  return "normal";
 });
 </script>
-<style>
+<style lang="scss" scoped>
+$border-radius: 8px; // option 1
+// $border-radius: 15px; // option 2
+.overdueF,
+.overdueI,
+.normal {
+  /* Option 1 */
+  -webkit-border-top-right-radius: $border-radius;
+  -webkit-border-bottom-left-radius: $border-radius;
+  -moz-border-radius-topright: $border-radius;
+  -moz-border-radius-bottomleft: $border-radius;
+  border-top-right-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
+  right: -12px;
+  margin-top: -36px;
+
+  /* Option 2 */
+  // right: 0px;
+  // margin-top: -24px;
+
+  // -webkit-border-radius: $border-radius;
+  // -moz-border-radius: $border-radius;
+  // border-radius: $border-radius;
+}
 .overdueI {
-  background-color: #f2080844 !important;
+  background-color: #f2080866 !important;
+  color: white;
 }
 .overdueF {
-  background-color: #f2080888 !important;
+  background-color: #f20808aa !important;
+  color: white;
 }
 </style>
