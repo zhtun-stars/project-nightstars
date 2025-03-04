@@ -46,7 +46,7 @@
             <CrewShortNameRed v-else :crew="initialReviewer" />
           </div>
           <div class="inline-block pr-2">
-            <CrewShortName v-if="!ISADMIN" :crew="{ name: finalReviewer }" />
+            <CrewShortName v-if="!ISADMIN" :crew="finalReviewer" />
             <CrewShortNameBlue
               v-else-if="clinicalData.FinalReviewDate"
               :crew="finalReviewer"
