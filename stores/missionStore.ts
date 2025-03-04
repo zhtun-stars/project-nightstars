@@ -24,7 +24,7 @@ export const useMissionStore = defineStore("mission", {
     sortValue: {
       key: SORTING_FROM_FILTER[0].key,
       order: SORT_ORDER.ASC,
-    }
+    },
   }),
   getters: {},
   actions: {

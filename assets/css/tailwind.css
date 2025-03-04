@@ -41,6 +41,8 @@
     --star-gray: #e0d9d1;
     --star-white: #f6f4f3;
 
+    --comment-background: #e6e6e6;
+
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -100,13 +102,13 @@
     --navbar-background: #1e293b;
     --list-color-hover: #1e293b66;
 
-    
+    --comment-background: #1e293b;
     --star-color: #f20808;
     --star-hope: #91decf;
     --star-midnight: #0c2e3f;
     --star-gray: #e0d9d1;
     --star-white: #f6f4f3;
-    --list-highlight: #FFFFFF22;
+    --list-highlight: #ffffff22;
   }
 }
 
@@ -144,7 +146,7 @@ body {
   }
 }
 
-.thin-scrollbar-horizontal{
+.thin-scrollbar-horizontal {
   /* width */
   &::-webkit-scrollbar {
     height: 10px;
