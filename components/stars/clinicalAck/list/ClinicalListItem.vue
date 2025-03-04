@@ -8,11 +8,6 @@
           <div class="font-semibold">
             {{ clinicalData.EventNumber }}
           </div>
-          <div :class="`pr-2 flex absolute px-2 ${background}`">
-            <TriangleAlert
-              class="w-4 text-[--star-color]"
-              v-if="background !== 'normal'"
-            />
             <div class="font-semibold pl-2">{{ missionDate }}</div>
           </div>
         </div>

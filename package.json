@@ -26,7 +26,7 @@
     "reka-ui": "^2.0.0",
     "sass": "^1.85.0",
     "shadcn-nuxt": "0.11.3",
-    "tailwind-merge": "^3.0.1",
+    "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
     "vee-validate": "^4.15.0",
     "vue": "latest",
