@@ -15,7 +15,7 @@ export interface ICrew {
 }
 
 export interface IClinicalData {
-  missionId: number,
+  missionId: number;
   mission: string;
   date: Date;
   initialReviewedDate?: Date;
@@ -34,8 +34,9 @@ export interface IChat {
 }
 
 export interface IUserInfo {
-  UserId: string;
+  UserId?: string;
   UserName: string;
+  FullName: string;
   Role?: string;
   FirstName: string;
   LastName: string;
@@ -76,4 +77,4 @@ export type Mission = {
   BaseID: number;
   MissionBase: string;
   FuLLName?: string;
-}
+};

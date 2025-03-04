@@ -26,6 +26,6 @@
 <script setup>
 import BreadcrumbPanel from "./BreadcrumbPanel.vue";
 import ThemeModeSwitch from "../ThemeModeSwitch.vue";
-import UserInfo from "../sidebar/UserInfo.vue";
+import UserInfo from "./UserInfo.vue";
 import MasterButton from "../masterButton/MasterButton.vue";
 </script>

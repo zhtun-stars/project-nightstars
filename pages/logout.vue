@@ -4,7 +4,6 @@ import { msalInstance } from "~/lib/msalConfig";
 import { onMounted } from "vue";
 
 const {
-  login,
   logout,
   handleRedirect,
   registerAuthorizationHeaderInterceptor,

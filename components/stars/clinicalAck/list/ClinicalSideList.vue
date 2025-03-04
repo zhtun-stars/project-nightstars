@@ -41,10 +41,11 @@
 <script lang="ts" setup>
 import FilterInput from "@/components/stars/commons/filterInput/FilterInput.vue";
 import ClinicalListView from "./ClinicalListView.vue";
-import type { IClinicalData, ISort } from "~/lib/interfaces";
+import type { ISort, Mission } from "~/lib/interfaces";
 import { SORT_ORDER, SORTING_FROM_FILTER } from "@/lib/constants";
 import { CLINICAL_DATA } from "@/lib/mockdata";
 import {
+  convertData,
   clinicalFilters as filters,
   sortAndFilterClinicalFilter,
 } from "@/lib/common-functions";
@@ -52,6 +53,7 @@ import type { IFilter } from "~/lib/InfFilters";
 import LoadingIcon from "../../commons/LoadingIcon.vue";
 import ErrorIcon from "../../commons/ErrorIcon.vue";
 import EmptyIcon from "../../commons/EmptyIcon.vue";
+import { retrieveMissions } from "~/server/services";
 
 const sorts = SORTING_FROM_FILTER;
 
@@ -61,46 +63,26 @@ const sortValue = ref({
 } as ISort);
 const filterText = ref("");
 
-const data = CLINICAL_DATA;
-
 const store = useMissionStore();
+const userStore = useSessionStore();
 
-const sortedData = () => {
-  IStatus.loading;
+const sortedData = async () => {
+  store.missionListStatus = IStatus.loading;
+
+  const resultData = await retrieveMissions(userStore.username);
+
   const data = sortAndFilterClinicalFilter(
-    CLINICAL_DATA,
+    resultData,
     filterText.value,
     sortValue.value
-  ).map((item: IClinicalData, index: number) => ({
-    PCRID: index,
-    EventID: index,
-    EventUnitID: index,
-    InitialReviewDate: item.initialReviewedDate,
-    FinalReviewDate: item.finalReviewedDate,
-    FinalReviewBy: item.finalReviewer,
-    InitialReviewBy: item.initialReviewer,
-    CrewID: index,
-    LastName: "Doe",
-    FirstName: "John",
-    PositionID: index,
-    Position: "EMT",
-    LoginID: "johndoe",
-    EventDate: item.date,
-    HasRead: false,
-    InitialReviewerID: item.initialReviewedDate ? 1 : 0,
-    FinalReviewerID: item.finalReviewedDate ? 1 : 0,
-    BaseID: 1,
-    MissionBase: item.baseName,
-    FuLLName: item.physician,
-    EventNumber: item.mission,
-  }));
+  );
   store.setMissions(data);
   store.missionListStatus = IStatus.idle;
 };
 
 const onSort = (sort: ISort) => {
   sortValue.value = sort;
-  sortedData();
+  sortedData().then().catch();
 };
 
 const onFilter = (filter: IFilter[]) => {
@@ -112,6 +94,6 @@ const onFilterChange = (text: string) => {
 };
 
 onMounted(() => {
-  sortedData();
+  sortedData().then().catch();
 });
 </script>

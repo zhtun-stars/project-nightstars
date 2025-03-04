@@ -12,7 +12,7 @@
           </div>
           <div class="flex-auto flex-grow-1 text-[--foreground] -mt-2">
             <div class="font-bold text-md leading-[48px] pr-2">
-              {{ username }}
+              {{ fullname }}
             </div>
           </div>
         </div>
@@ -20,41 +20,23 @@
       <PopoverContent class="w-[200px]">
         <div class="flex flex-col">
           <div class="flex-1 text-center">
-            <Button variant="link" @click="navigateTo(PAGES.logout)"
-              >Logout</Button
-            >
+            <Button variant="link" @click="logout">Logout</Button>
           </div>
         </div>
       </PopoverContent>
     </Popover>
   </ClientOnly>
 </template>
-<script>
+<script setup lang="ts">
 import { CircleUserRound } from "lucide-vue-next";
 import Avatar from "~/components/ui/avatar/Avatar.vue";
 import { useSessionStore } from "~/stores/SessionStore";
-import { mapActions, mapState } from "pinia";
 import { PAGES } from "~/lib/constants";
 
-export default {
-  name: "UserInfo",
-  components: {
-    Avatar,
-    CircleUserRound,
-  },
-  data() {
-    return {
-      userInfo: {},
-    };
-  },
-  methods: {
-    ...mapActions(useSessionStore, ["setUserInfo"]),
-  },
-  computed: {
-    ...mapState(useSessionStore, ["username", "settings"]),
-  },
-  mounted() {
-    // loadSession();
-  },
-};
+
+const logout = () => {
+  navigateTo(PAGES.logout);
+}
+const store = useSessionStore();
+const fullname = computed(()=> store.fullName);
 </script>

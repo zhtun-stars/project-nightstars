@@ -9,9 +9,9 @@ export enum SORT_ORDER {
 }
 
 export const SORTING_FROM_FILTER = [
-  { key: "date", label: "Mission Date" },
-  { key: "initialReviewedDate", label: "Initial Review Date" },
-  { key: "finalReviewedDate", label: "Final Review Date" },
+  { key: "EventDate", label: "Mission Date" },
+  { key: "InitialReviewDate", label: "Initial Review Date" },
+  { key: "FinalReviewDate", label: "Final Review Date" },
 ];
 
 export const PAGES = {

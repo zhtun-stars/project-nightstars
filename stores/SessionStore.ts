@@ -4,6 +4,7 @@ import type { IUserInfo } from "~/lib/interfaces";
 export const useSessionStore = defineStore("session", {
   state: () => ({
     username: "",
+    fullName: "",
     roles: {
       ISADMIN: false,
       ISAMC: false,
@@ -52,6 +53,7 @@ export const useSessionStore = defineStore("session", {
       this.username = userInfo.UserName;
       this.SETTINGS = userInfo.settings;
       this.email = userInfo.Email;
+      this.fullName = userInfo.FullName;
     },
     setUserName(username: string) {
       this.username = username;
