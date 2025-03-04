@@ -54,6 +54,7 @@ import { Grid, HardDrive, TriangleAlert } from "lucide-vue-next";
 import LoadingSvg from "../commons/LoadingSvg.vue";
 import { retrieveMissions } from "~/server/services";
 import { sortAndFilterClinicalFilter } from "~/lib/common-functions";
+import { IStatus } from "~/stores/missionStore";
 
 const store = useMissionStore();
 const sessionStore = useSessionStore();
