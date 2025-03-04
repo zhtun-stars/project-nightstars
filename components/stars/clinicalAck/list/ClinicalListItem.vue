@@ -8,7 +8,16 @@
           <div class="font-semibold">
             {{ clinicalData.EventNumber }}
           </div>
-            <div class="font-semibold pl-2">{{ missionDate }}</div>
+          <div
+            :class="`flex flex-row font-semibold px-2 ${background} absolute`"
+          >
+            <div class="pr-2">
+              <TriangleAlert
+                class="w-4 text-[--star-color]"
+                v-if="background !== 'normal'"
+              />
+            </div>
+            <div class="font-semibold">{{ missionDate }}</div>
           </div>
         </div>
         <div class="flex-1 text-sm justify-between flex pb-2">
@@ -33,20 +42,26 @@
         </div>
         <div class="bg-[--list-highlight] bg-opacity-30 rounded-full px-2 py-1">
           <div class="inline-block pr-2">
-            <CrewShortName v-if="!ISADMIN" :crew="initialReviewer" />
-            <CrewShortNameBlue
-              v-else-if="clinicalData.InitialReviewDate"
+            <CrewShortName
+              v-if="!ISADMIN || !initialReviewedDate || !finalReviewedDate"
               :crew="initialReviewer"
             />
-            <CrewShortNameRed v-else :crew="initialReviewer" />
+            <CrewShortNameBlue
+              v-else-if="ISADMIN && clinicalData.InitialReviewDate"
+              :crew="initialReviewer"
+            />
+            <CrewShortNameRed v-else-if="ISADMIN" :crew="initialReviewer" />
           </div>
           <div class="inline-block pr-2">
-            <CrewShortName v-if="!ISADMIN" :crew="finalReviewer" />
-            <CrewShortNameBlue
-              v-else-if="clinicalData.FinalReviewDate"
+            <CrewShortName
+              v-if="!ISADMIN || !initialReviewedDate || !finalReviewedDate"
               :crew="finalReviewer"
             />
-            <CrewShortNameRed v-else :crew="finalReviewer" />
+            <CrewShortNameBlue
+              v-else-if="ISADMIN && clinicalData.FinalReviewDate"
+              :crew="finalReviewer"
+            />
+            <CrewShortNameRed v-else-if="ISADMIN" :crew="finalReviewer" />
           </div>
         </div>
       </div>
