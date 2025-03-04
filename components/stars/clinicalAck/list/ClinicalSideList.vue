@@ -4,11 +4,12 @@
       <slot></slot>
     </div>
     <FilterInput
+      :defaultFilterText="store.filterText"
       :sorts="sorts"
       @onSort="onSort"
       @onFilter="onFilter"
       @onFilterTextChange="onFilterChange"
-      :defaultSort="sortValue"
+      :defaultSort="store.sortValue"
       :maxLength="10"
       :filters="filters"
     />
@@ -41,9 +42,8 @@
 <script lang="ts" setup>
 import FilterInput from "@/components/stars/commons/filterInput/FilterInput.vue";
 import ClinicalListView from "./ClinicalListView.vue";
-import type { IClinicalData, ISort } from "~/lib/interfaces";
-import { SORT_ORDER, SORTING_FROM_FILTER } from "@/lib/constants";
-import { CLINICAL_DATA } from "@/lib/mockdata";
+import type { ISort } from "~/lib/interfaces";
+import { SORTING_FROM_FILTER } from "@/lib/constants";
 import {
   clinicalFilters as filters,
   sortAndFilterClinicalFilter,
@@ -52,55 +52,27 @@ import type { IFilter } from "~/lib/InfFilters";
 import LoadingIcon from "../../commons/LoadingIcon.vue";
 import ErrorIcon from "../../commons/ErrorIcon.vue";
 import EmptyIcon from "../../commons/EmptyIcon.vue";
+import { retrieveMissions } from "~/server/services";
 
 const sorts = SORTING_FROM_FILTER;
 
-const sortValue = ref({
-  key: sorts[0].key,
-  order: SORT_ORDER.ASC,
-} as ISort);
-const filterText = ref("");
-
-const data = CLINICAL_DATA;
-
 const store = useMissionStore();
+const userStore = useSessionStore();
 
-const sortedData = () => {
-  IStatus.loading;
-  const data = sortAndFilterClinicalFilter(
-    CLINICAL_DATA,
-    filterText.value,
-    sortValue.value
-  ).map((item: IClinicalData, index: number) => ({
-    PCRID: index,
-    EventID: index,
-    EventUnitID: index,
-    InitialReviewDate: item.initialReviewedDate,
-    FinalReviewDate: item.finalReviewedDate,
-    FinalReviewBy: item.finalReviewer,
-    InitialReviewBy: item.initialReviewer,
-    CrewID: index,
-    LastName: "Doe",
-    FirstName: "John",
-    PositionID: index,
-    Position: "EMT",
-    LoginID: "johndoe",
-    EventDate: item.date,
-    HasRead: false,
-    InitialReviewerID: item.initialReviewedDate ? 1 : 0,
-    FinalReviewerID: item.finalReviewedDate ? 1 : 0,
-    BaseID: 1,
-    MissionBase: item.baseName,
-    FuLLName: item.physician,
-    EventNumber: item.mission,
-  }));
+const loadData = async () => {
+  store.missionListStatus = IStatus.loading;
+
+  const resultData = await retrieveMissions(userStore.username);
+
+  const data = sortAndFilterClinicalFilter(resultData, store.sortValue);
+
   store.setMissions(data);
   store.missionListStatus = IStatus.idle;
 };
 
 const onSort = (sort: ISort) => {
-  sortValue.value = sort;
-  sortedData();
+  store.sortValue = sort;
+  loadData().then().catch();
 };
 
 const onFilter = (filter: IFilter[]) => {
@@ -108,10 +80,10 @@ const onFilter = (filter: IFilter[]) => {
 };
 
 const onFilterChange = (text: string) => {
-  filterText.value = text;
+  store.filterText = text;
 };
 
 onMounted(() => {
-  sortedData();
+  loadData().then().catch();
 });
 </script>
