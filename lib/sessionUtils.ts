@@ -1,5 +1,6 @@
 import type { AccountInfo } from "@azure/msal-browser";
 import type { Roles } from "./interfaces";
+import { EmitFlags } from "typescript";
 
 export const setUserOrRestore = async (
   user: AccountInfo,
@@ -7,6 +8,7 @@ export const setUserOrRestore = async (
 ) => {
   setUserInfo({
     loginName: user.name,
+    EmitFlags: user.username,
     settings: { theme: "light" },
     roles: {
       ISADMIN: true,

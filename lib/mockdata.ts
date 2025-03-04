@@ -20,25 +20,26 @@ export const randomDate = (): Date =>
 export const CLINICAL_DATA: IClinicalData[] = Array.from(
   { length: 45 },
   (_, index) => ({
+    missionId: index,
     mission: `24A00248${index + 1}`,
     date: new Date(+new Date() - Math.floor(Math.random() * 10000000000)),
-    initialReviewedDate:
-      randomByMax(4) === 0
-        ? undefined
-        : new Date(+new Date() - Math.floor(Math.random() * 10000000000)),
-    finalReviewedDate:
-      randomByMax(2) === 0
-        ? undefined
-        : new Date(+new Date() - Math.floor(Math.random() * 10000000000)),
     physician: randomNames[Math.floor(Math.random() * randomNames.length)],
     baseName: randomBaseNames[randomByMax(randomBaseNames.length)],
-    crews: Array.from({ length: randomByMax(4) }, (_, index) => ({
-      name: randomNames[Math.floor(Math.random() * randomNames.length)],
-      reviewDate:
-        randomByMax(2) === 0
-          ? undefined
-          : new Date(+new Date() - Math.floor(Math.random() * 10000000000)),
-    })),
+
+    initialReviewedDate:
+      randomByMax(20) % 2 === 0
+        ? undefined
+        : new Date(+new Date() - Math.floor(Math.random() * 10000000000)),
+    initialReviewer: `${
+      randomNames[Math.floor(Math.random() * randomNames.length)]
+    }`,
+    finalReviewedDate:
+      randomByMax(20) % 2 === 0
+        ? undefined
+        : new Date(+new Date() - Math.floor(Math.random() * 10000000000)),
+    finalReviewer: `${
+      randomNames[Math.floor(Math.random() * randomNames.length)]
+    }`,
   })
 );
 
@@ -51,19 +52,3 @@ export const COMMENTS: IChat[] = Array.from(
     user: randomNames[Math.floor(Math.random() * randomNames.length)],
   })
 );
-
-export const USER_INFO: IUserInfo = {
-  id: "1",
-  username: "johndoe",
-  loginName: "John Doe",
-  email: "johndoe@stars.ca",
-  roles: {
-    ISADMIN: true,
-    ISTP: true,
-    ISAMC: true,
-    ISREVIEWER: true,
-  },
-  settings: {
-    theme: "light",
-  },
-};

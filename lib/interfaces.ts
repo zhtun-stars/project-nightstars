@@ -15,13 +15,15 @@ export interface ICrew {
 }
 
 export interface IClinicalData {
+  missionId: number,
   mission: string;
   date: Date;
   initialReviewedDate?: Date;
+  initialReviewer: string;
   finalReviewedDate?: Date;
+  finalReviewer: string;
   physician: string;
   baseName: string;
-  crews: ICrew[];
 }
 
 export interface IChat {
@@ -32,10 +34,12 @@ export interface IChat {
 }
 
 export interface IUserInfo {
-  id: string;
-  username: string;
-  loginName: string;
-  email: string;
+  UserId: string;
+  UserName: string;
+  Role?: string;
+  FirstName: string;
+  LastName: string;
+  Email: string;
   roles: Roles;
   settings: {
     theme: "light" | "dark";
@@ -48,3 +52,28 @@ export type Roles = {
   ISAMC: boolean;
   ISREVIEWER: boolean;
 };
+
+export type Mission = {
+  PCRID: number;
+  EventID: number;
+  EventUnitID: number;
+  InitialReviewDate?: Date;
+  FinalReviewDate?: Date;
+  FinalReviewBy: string;
+  InitialReviewBy: string;
+  CrewID?: number;
+  LastName: string;
+  FirstName: string;
+  PositionID?: number;
+  Position: string;
+  LoginID: string;
+  EventDate?: Date;
+  HasRead: boolean;
+  DateNarrativeRead?: Date;
+  InitialReviewerID: number;
+  FinalReviewerID: number;
+  EventNumber: string;
+  BaseID: number;
+  MissionBase: string;
+  FuLLName?: string;
+}

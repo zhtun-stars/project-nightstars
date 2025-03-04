@@ -19,10 +19,12 @@ export function typeSort(
     return a.getTime() - b.getTime();
   } else if (a === undefined || a === null) {
     return -1;
+  } else if (b === undefined || b === null) {
+    return 1;
   } else return 0;
 }
 export const shortTheName = (name: String): String => {
-  return name.length > 12 ? name.substring(0, 11) + "..." : name;
+  return name ? (name.length > 12 ? name.substring(0, 11) + "..." : name) : "";
 };
 
 const dateRanges = {
@@ -87,8 +89,33 @@ export const sortAndFilterClinicalFilter = (
   if (sortValue.order === SORT_ORDER.DESC) {
     return result.reverse();
   }
-  return result;
+  if (
+    sortValue.key === "initialReviewedDate" ||
+    sortValue.key === "finalReviewedDate"
+  ) {
+    return result;
+  } else {
+    return [
+      ...result.filter(
+        (item) =>
+          item.finalReviewedDate === undefined &&
+          item.initialReviewedDate === undefined
+      ),
+      ...result.filter(
+        (item) =>
+          item.finalReviewedDate === undefined &&
+          item.initialReviewedDate !== undefined
+      ),
+      ...result.filter(
+        (item) =>
+          item.finalReviewedDate !== undefined &&
+          item.initialReviewedDate !== undefined
+      ),
+    ];
+  }
 };
 
 export const getClinicalPage = (window: Window): string =>
   window.innerWidth <= SMALL_SCREENSIZE ? PAGES.clinicalSmall : PAGES.clinical;
+export const getFullname = (firstName: string, lastName: string) =>
+  `${lastName} ${firstName}`;

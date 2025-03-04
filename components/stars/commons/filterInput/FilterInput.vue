@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, defineEmits, defineProps } from "vue";
+import { ref } from "vue";
 import SortingPopover from "./SortingPopover.vue";
 import type { IFilterSorterColumn, ISort } from "@/lib/interfaces";
 import { SORT_ORDER } from "~/lib/constants";
