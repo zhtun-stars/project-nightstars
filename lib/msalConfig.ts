@@ -19,6 +19,9 @@ export const msalConfig = {
     postLogoutUri:
       process.env.NUXT_PUBLIC_MSAL_REDIRECT_URI ||
       useRuntimeConfig().public.NUXT_PUBLIC_MSAL_REDIRECT_URI,
+    scopeToken:
+      process.env.NUXT_OAUTH_MSAL_SCOPE_TOKEN ||
+      useRuntimeConfig().public.NUXT_OAUTH_MSAL_SCOPE_TOKEN,
   },
   cache: {
     cacheLocation: "sessionStorage", // This configures where your cache will be stored
