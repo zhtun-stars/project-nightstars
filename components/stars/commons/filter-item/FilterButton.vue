@@ -38,7 +38,6 @@ import { Filter, FilterX } from "lucide-vue-next";
 import { dateFilter, stringFilter, type IFilter } from "@/lib/InfFilters";
 import DateFilter from "../filter-item/DateFilter.vue";
 import PrimitiveFilter from "../filter-item/PrimitiveFilter.vue";
-import moment from "moment";
 import { PopoverClose } from "radix-vue";
 
 export default {

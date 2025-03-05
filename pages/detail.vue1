@@ -1,0 +1,98 @@
+<template>
+  <button @click="parse" class="fixed z-50 top-1/2 bg-white text-black">
+    parse
+  </button>
+  <div class="flex flex-row h-[100vh] w-[100vh]">
+    <div class="flex-1">
+      <div class="w-full h-full bg-black text-white text-wrap">
+        {{ remainText }}
+      </div>
+    </div>
+    <div class="flex-1 flex flex-col">
+      <table class="border-collapse border border-black">
+        <tr
+          class="border border-x-white"
+          v-for="(key, index) in Object.keys(obj)"
+          :key="index"
+        >
+          <th class="p-2 leading-[30px]">{{ key }}</th>
+          <td class="">
+            {{ obj[key] }}
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</template>
+<script setup lang="tsx">
+import text from "./text.json";
+const obj = ref<any>({});
+const remainText = ref<string>(text.text);
+const parse = () => {
+  obj.value = {};
+  let { text: remain } = text;
+  [obj.value.artical, remain] = subtractText(remain, " ***");
+  [obj.value.title, remain] = subtractText(remain, "*** ");
+  let objects: string = "";
+  [objects, remain] = subtractText(remain, " ***");
+  obj.value = {
+    ...obj.value,
+    data: getArrayObjects(objects),
+  };
+
+  [obj.value.docRemarksTitle, remain] = subtractText(remain, " ***");
+  [obj.value.initialReview, remain] = subtractText(remain, "*** ");
+  [obj.value.medicalQMTitle, remain] = subtractText(remain, " ***");
+  [obj.value.ReviewedBy, remain] = subtractText(remain, "*** ");
+  obj.value.ReviewedBy = obj.value.ReviewedBy.replace("--------------------------------------------------------------------------", "");
+  [obj.value.prcNarTitle, remain] = subtractText(remain, "*** ");
+  
+  remainText.value = remain;
+};
+
+const subtractText = (text: string, delimiter: string) => {
+  let index = text.indexOf(delimiter);
+  return [text.substring(0, index), text.substring(index + delimiter.length)];
+};
+
+const objectKeys = [
+  "EVENT DATE:",
+  "MISSION EVENT NUMBER:",
+  "DESCRIPTION:",
+  "LOCATION:",
+  "COMMUNITY:",
+  "FLIGHT TYPE:",
+  "REFERRING AGENCY:",
+  "RECEIVING AGENCY:",
+  "TRANSPORT TEAM:",
+  "ARRIVAL AT SCENE/SENDING HOSPITAL:",
+  "DEPART SCENE/SENDING HOSPITAL:",
+  "PT TRANSPORT OUTCOME:",
+  "ARRIVE RECEIVING HOSPITAL/DESTINATION:",
+  "TYPE OF EVENT:",
+  "CHIEF COMPLAINT:",
+  "AMC:",
+  "AMC:",
+];
+
+const getArrayObjects = (objects: string) => {
+  const obj: any = [];
+  let previousKey = objectKeys[0];
+  for (let index = 1; index < objectKeys.length; index++) {
+    let key = objectKeys[index];
+    if (previousKey === "AMC:") {
+      if (!obj[previousKey]) obj[previousKey] = [];
+      let amc = "";
+      [amc, objects] = subtractText(objects, key);
+      obj[previousKey].push(amc);
+    } else [obj[previousKey], objects] = subtractText(objects, key);
+    previousKey = key;
+  }
+  if (Array.isArray(obj[previousKey])) {
+    obj[previousKey].push(objects);
+  } else obj[previousKey] = objects;
+  // first value wil come together with key
+  obj[objectKeys[0]] = obj[objectKeys[0]].replace(objectKeys[0], "");
+  return obj;
+};
+</script>
