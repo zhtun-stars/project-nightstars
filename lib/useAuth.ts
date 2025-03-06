@@ -1,5 +1,6 @@
 import axios from "axios";
-import { msalInstance, state } from "./msalConfig";
+import { msalInstance, state, msalConfig } from "./msalConfig";
+import { PublicClientApplication } from "@azure/msal-browser";
 
 export function msalService() {
   const initialize = async () => {
@@ -34,7 +35,14 @@ export function msalService() {
     state.isAuthenticated = false;
     state.user = null;
   };
+  const currentUser = () => {
+    let account = null;
 
+    account = msalInstance.getActiveAccount();
+    if (account === null) account = msalInstance.getAllAccounts()[0];
+
+    return account;
+  };
   const handleRedirect = async () => {
     try {
       await msalInstance.handleRedirectPromise();
@@ -45,29 +53,30 @@ export function msalService() {
     }
   };
   const getToken = async () => {
-    if (!msalInstance) {
-      throw new Error(
-        "MSAL not initialized. Call initializeMsal() before using MSAL API."
-      );
-    }
+    const msalInstance = new PublicClientApplication(msalConfig);
+    await msalInstance.initialize();
+    const account = currentUser();
+    const request = {
+      scopes: [msalConfig.auth.scopeToken as string], // Add the scopes you need
+      account: account,
+      forceRefresh: true,
+      loginHint: account.username,
+      refreshTokenExpirationOffsetSeconds: 60,
+    };
+
     try {
-      const accounts = msalInstance.getAllAccounts();
-      if (accounts.length === 0) {
-        throw new Error("No accounts found. Please login first.");
+      if (account) {
+        // Try to acquire token silently
+        const response = await msalInstance.acquireTokenSilent(request);
+        return response.accessToken;
+      } else {
+        // If no account is found, user might not be signed in
+        console.error("No account found, user might not be signed in");
       }
-      const silentRequest = {
-        scopes: [
-          process.env.NUXT_PUBLIC_MSAL_AUTHORITY ||
-            useRuntimeConfig().public.NUXT_PUBLIC_MSAL_AUTHORITY,
-        ],
-        account: accounts[0],
-      };
-      const silentResponse = await msalInstance.acquireTokenSilent(
-        silentRequest
-      );
-      return silentResponse.accessToken;
     } catch (error) {
-      console.error("Silent token acquisition error:", error);
+      console.error("Error acquiring token in gettoken:", error);
+      return null;
+      //await msalInstance.acquireTokenPopup(request);
     }
   };
   const registerAuthorizationHeaderInterceptor = () => {
@@ -75,6 +84,7 @@ export function msalService() {
       const accessToken = await getToken();
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
+        axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
       }
       return config;
     });

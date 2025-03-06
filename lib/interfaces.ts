@@ -78,3 +78,15 @@ export type Mission = {
   MissionBase: string;
   FuLLName?: string;
 };
+
+export type UserDetail = {
+  base: string;
+  baseId: number;
+  employeeSid: number;
+  firstName: string;
+  fullName: string;
+  isAMC: boolean;
+  isReviewer: boolean;
+  lastName: string;
+  loginId: boolean;
+};

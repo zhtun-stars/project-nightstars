@@ -1,13 +1,14 @@
-<script setup>
-import { Fingerprint, LogOut, SquareArrowOutUpRight } from "lucide-vue-next";
+<script setup lang="ts">
+import { Fingerprint, SquareArrowOutUpRight } from "lucide-vue-next";
 import { msalService } from "~/lib/useAuth";
 import { msalInstance, state } from "~/lib/msalConfig";
 import { onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import { setUserOrRestore } from "~/lib/sessionUtils";
 import { useSessionStore } from "~/stores/SessionStore";
-import { getClinicalPage } from "~/lib/common-functions";
 import { PAGES } from "~/lib/constants";
+import { retrieveUserDetail } from "~/server/services";
+import type { UserDetail } from "~/lib/interfaces";
 const route = useRoute();
 const { setUserInfo } = useSessionStore();
 
@@ -22,7 +23,11 @@ const colorMode = useColorMode();
 const loading = reactive({ value: true });
 
 const setSession = async () => {
-  state.isAuthenticated && (await setUserOrRestore(state.user, setUserInfo));
+  if (state.isAuthenticated) {
+    const username = state.user?.username.split("@")[0];
+    const user = await retrieveUserDetail(username!);
+    await setUserOrRestore(state.user!, user, setUserInfo);
+  }
 };
 
 const handleLogin = async () => {
@@ -45,10 +50,11 @@ const initialize = async () => {
 onMounted(async () => {
   await initialize();
   await handleRedirect();
-  await setSession();
   colorMode.value = "light";
-  if (route.query.redirect) navigateTo(route.query.redirect);
+  if (route.query.redirect) navigateTo(route.query.redirect as string);
   else loading.value = false;
+
+  await setSession();
 });
 
 definePageMeta({
@@ -64,7 +70,6 @@ definePageMeta({
 
 const goToApp = () => {
   loading.value = true;
-  // navigateTo(getClinicalPage(window)); // in case would want to change
   navigateTo(PAGES.clinical);
 };
 
@@ -115,7 +120,7 @@ const isAuthenticated = computed(() => state.isAuthenticated);
             />
           </div>
           <div class="flex-auto flex-grow-1" v-if="isAuthenticated">
-            <p class="text-xl text-center">Hi {{ state.user.name }},</p>
+            <p class="text-xl text-center">Hi {{ state.user!.name }},</p>
             <p class="text-center text-muted-foreground text-sm pt-4">
               Welcome to the Stars Clinical Application.
             </p>
@@ -130,14 +135,12 @@ const isAuthenticated = computed(() => state.isAuthenticated);
             <br />
             <div class="flex flex-col gap-4">
               <Button
-                variant=""
                 class="w-full bg-[--star-midnight] text-white"
                 size="lg"
                 @click="goToApp"
                 >Go to Application</Button
               >
               <Button
-                variant=""
                 class="w-full bg-[--star-color] text-white"
                 size="lg"
                 @click="handleLogout"
@@ -147,7 +150,6 @@ const isAuthenticated = computed(() => state.isAuthenticated);
           </div>
           <div v-else>
             <Button
-              variant=""
               class="w-full bg-[--star-color] text-white"
               size="lg"
               @click="handleLogin"
