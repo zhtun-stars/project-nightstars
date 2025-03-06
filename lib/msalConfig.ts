@@ -33,9 +33,14 @@ export const graphScopes: RedirectRequest = {
   scopes: ["user.read", "openid", "profile"],
 };
 
-export const state = reactive({
+export const state = reactive<{
+  isAuthenticated: boolean;
+  user: AccountInfo | null;
+  authToken: string | null | undefined;
+}>({
   isAuthenticated: false,
-  user: null as AccountInfo | null
+  user: null,
+  authToken: "",
 });
 
 export const msalInstance = new PublicClientApplication(msalConfig);

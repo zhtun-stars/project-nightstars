@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "shadcn-nuxt",
     "@nuxtjs/color-mode",
-    "@pinia/nuxt"
+    "@pinia/nuxt",
   ],
   shadcn: {
     prefix: "",
@@ -24,8 +24,9 @@ export default defineNuxtConfig({
       NUXT_OAUTH_MICROSOFT_CLIENT_ID:
         process.env.NUXT_OAUTH_MICROSOFT_CLIENT_ID,
       NUXT_PUBLIC_MSAL_AUTHORITY: process.env.NUXT_PUBLIC_MSAL_AUTHORITY,
-      NUXT_OAUTH_MSAL_SCOPE: process.env.NUXT_OAUTH_MSAL_SCOPE,
       NUXT_OAUTH_MSAL_SCOPE_TOKEN: process.env.NUXT_OAUTH_MSAL_SCOPE_TOKEN,
+      BACKEND_API: process.env.BACKEND_API,
     },
   },
+  // plugins: ["~/plugins/api"],
 });

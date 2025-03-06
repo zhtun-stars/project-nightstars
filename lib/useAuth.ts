@@ -55,10 +55,9 @@ export function msalService() {
   const getToken = async () => {
     const msalInstance = new PublicClientApplication(msalConfig);
     await msalInstance.initialize();
-
     const account = currentUser();
     const request = {
-      scopes: [msalConfig.auth.scopeToken], // Add the scopes you need
+      scopes: [msalConfig.auth.scopeToken as string], // Add the scopes you need
       account: account,
       forceRefresh: true,
       loginHint: account.username,
@@ -85,6 +84,7 @@ export function msalService() {
       const accessToken = await getToken();
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
+        axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
       }
       return config;
     });
